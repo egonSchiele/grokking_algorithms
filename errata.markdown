@@ -56,3 +56,17 @@ Suggestion:
 
 Full executable python algorithms for Chapter 9 and 10? Given the awesome pace of the early chapters I was disappointed that there wasn't any executable code in 9 and 10 :(
 
+
+
+---
+
+
+
+So you started out with a 1680 × 640 farm that needed to be split up. But now you need to split up a smaller segment, 640 × 400. If you nd the biggest box that will work for this size, that will be the biggest box that will work for the entire farm. You just reduced the problem from a 1680 × 640 farm to a 640 × 400 farm!
+
+I think it's confusing as it's using W X H for 1680 x 640 but H X W for 640 x 400
+
+So should it not be?
+
+So you started out with a 1680 × 640 farm that needed to be split up. But now you need to split up a smaller segment, 400 × 680. If you nd the biggest box that will work for this size, that will be the biggest box that will work for the entire farm. You just reduced the problem from a 1680 × 640 farm to a 400 × 680 farm!
+
