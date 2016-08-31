@@ -1,0 +1,15 @@
+' Gambas module file
+
+Function sum(arr As Integer[]) As Integer
+  Dim total, x As Integer
+  total = 0
+  For x = 0 To arr.Length - 1
+    total += arr[x]
+  Next
+  Return total
+  
+End
+
+Public Sub Main()
+ Print sum([1, 2, 3, 4, 5])
+End
