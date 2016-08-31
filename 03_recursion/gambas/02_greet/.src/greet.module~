@@ -1,0 +1,17 @@
+' Gambas module file
+
+Function greet2(name As String)
+  Print "how are you, "; name; "?"  
+End
+Function bye()
+  Print "ok bye!"
+End
+Function greet(name As String)
+  Print "how are you, "; name; "?"
+  greet2(name)
+  Print "getting ready to say bye..."
+  bye()
+End
+Public Sub Main()
+greet("adit")
+End
