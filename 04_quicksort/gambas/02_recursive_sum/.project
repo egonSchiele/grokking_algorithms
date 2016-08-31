@@ -1,0 +1,7 @@
+# Gambas Project File 3.0
+# Compiled with Gambas 3.5.4
+Title=02_recursive_sum
+Startup=recursive_sum
+Version=0.0.1
+TabSize=2
+Packager=1

@@ -1,0 +1,13 @@
+' Gambas module file
+
+Function sum(list As Float[]) As Float
+  If list.Length = 0 Then
+    Return 0
+  Endif
+  Return list[0] + sum(list.Copy(1, list.Length - 1))
+  
+End
+
+Public Sub Main()
+Print sum([1, 2, 3, 4])
+End
