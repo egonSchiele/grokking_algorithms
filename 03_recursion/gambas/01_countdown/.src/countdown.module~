@@ -1,0 +1,17 @@
+' Gambas module file
+
+Function countdown(i As Integer) As Integer
+  Print i
+  If i <= 0 Then
+    Return 
+    Else
+      countdown(i - 1)
+      
+  Endif
+  
+  
+End
+
+Public Sub Main()
+countdown(5)
+End

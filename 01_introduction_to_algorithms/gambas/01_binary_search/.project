@@ -1,0 +1,7 @@
+# Gambas Project File 3.0
+# Compiled with Gambas 3.5.4
+Title=01_binary_search
+Startup=binary_search
+Version=0.0.1
+TabSize=2
+Packager=1

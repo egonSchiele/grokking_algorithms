@@ -1,0 +1,14 @@
+[Breakpoints]
+Count=0
+
+[DebugWindow]
+Count=0
+
+[OpenFile]
+Active=1
+File[1]=".src/loop_sum.module:8.14"
+Count=1
+
+[Watches]
+Count=0
+
