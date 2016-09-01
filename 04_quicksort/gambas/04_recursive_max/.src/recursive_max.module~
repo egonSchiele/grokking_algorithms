@@ -1,0 +1,25 @@
+' Gambas module file
+
+Function mymax(list As Float[]) As Float
+  Dim sub_max As Float
+  
+  If list.Length = 2 Then
+    If list[0] > list[1] Then 
+      Return list[0] 
+    Else
+     Return list[1]
+    Endif
+  Endif
+  sub_max = mymax(list.Copy(1, list.Length - 1))
+   If list[0] > sub_max Then
+    Return list[0]
+     Else
+     Return sub_max
+    Endif
+  
+End
+
+Public Sub Main()
+Print mymax([1, 5, 10, 25, 16, 1])
+
+End
