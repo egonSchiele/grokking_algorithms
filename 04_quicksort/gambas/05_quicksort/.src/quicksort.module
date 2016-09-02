@@ -1,0 +1,39 @@
+' Gambas module file
+
+Function quicksort(myarray As Float[]) As Float[]
+  Dim pivot As Float
+  Dim i As Integer
+  Dim less, greater, r As New Float[]
+  If myarray.Length < 2 Then
+    Return myarray
+  Else
+     pivot = myarray[0]
+    For i = 1 To myarray.Length - 1
+      If myarray[i] <= pivot Then
+       less.add(myarray[i])
+      Else
+       greater.add(myarray[i])
+      End If
+    Next
+   
+  Endif
+  r.Insert(quicksort(less))
+  r.Add(pivot)
+  r.Insert(quicksort(greater))
+  Return r
+End
+
+
+Public Sub Main()
+Dim myarray As Float[]
+Dim element As Float
+Dim x As Integer
+
+myarray = [10, 5, 2, 3]
+myarray = quicksort(myarray)
+
+For Each element In myarray
+  Print element
+ Next
+
+End

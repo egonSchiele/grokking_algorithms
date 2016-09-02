@@ -1,0 +1,40 @@
+' Gambas module file
+
+Function findSmallest(arr As Float[]) As Integer
+  Dim smallest As Float
+  Dim i, smallest_index As Integer
+  smallest_index = 0
+  smallest = arr[0]
+  For i = 1 To arr.Length - 1
+    If arr[i] < smallest Then
+      smallest = arr[i]
+      smallest_index = i
+    Endif
+  Next
+  Return smallest_index 
+  
+End
+Function selectionSort(arr As Float[]) As Float[]
+Dim newArr As New Float[]
+Dim smallest, i As Integer
+Dim element As Float
+For i = 0 To arr.Length - 1
+  smallest = findSmallest(arr)
+  newArr.Push(arr[smallest])
+  arr.Remove(smallest)
+Next
+
+ Return newArr
+
+End
+Public Sub Main()
+Dim r As New Float[]
+Dim element As Float
+Dim i As Integer
+r = [5, 3, 6, 2, 10]
+r = selectionSort(r)
+
+For Each element In r
+  Print element
+ Next
+End
