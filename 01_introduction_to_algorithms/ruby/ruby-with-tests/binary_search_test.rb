@@ -1,6 +1,6 @@
 require "minitest/autorun"
 require "minitest/pride"
-require "../lib/binary_search.rb"
+require_relative "../binary-search/binary_search.rb"
 
 class BinarySearchTest < MiniTest::Test
   LIST = [1, 2, 3, 4, 5]
