@@ -5,7 +5,7 @@ Function binary_search(list As Float[], item As Float) As Variant
   low = 0
   high = list.Length - 1
   While low <= high
-    Midd = (low + high)
+    Midd = (low + high)/2
      guess = list[Midd]
      If guess = item Then
        Return Midd
