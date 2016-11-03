@@ -8,22 +8,22 @@ namespace ConsoleApplication
         public static void Main(string[] args)
         {
             var arr = new List<int> { 5, 3, 6, 2, 10 };
-            Console.WriteLine(string.Join(", ", selection_sort(arr)));
+            Console.WriteLine(string.Join(", ", SelectionSort(arr)));
         }
 
-        private static int[] selection_sort(List<int> arr)
+        private static int[] SelectionSort(List<int> arr)
         {
-            int[] newArr = new int[arr.Count];
+            var newArr = new int[arr.Count];
             for (int i = 0; i < newArr.Length; i++)
             {
-                int smallest = findSmallest(arr);
-                newArr[i] = arr[findSmallest(arr)];
+                var smallest = FindSmallest(arr);
+                newArr[i] = arr[smallest];
                 arr.RemoveAt(smallest);
             }
             return newArr;
         }
 
-        private static int findSmallest(List<int> arr)
+        private static int FindSmallest(List<int> arr)
         {
             var smallest = arr[0];
             var smallest_index = 0;
