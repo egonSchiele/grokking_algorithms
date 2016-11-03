@@ -26,16 +26,16 @@ namespace ConsoleApplication
         private static int FindSmallest(List<int> arr)
         {
             var smallest = arr[0];
-            var smallest_index = 0;
+            var smallestIndex = 0;
             for (int i = 0; i < arr.Count; i++)
             {
                 if (arr[i] < smallest)
                 {
                     smallest = arr[i];
-                    smallest_index = i;
+                    smallestIndex = i;
                 }
             }
-            return smallest_index;
+            return smallestIndex;
         }
     }
 }
