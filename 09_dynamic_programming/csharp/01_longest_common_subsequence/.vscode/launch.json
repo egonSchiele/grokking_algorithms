@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.0\\01_longest_common_subsequence.dll",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp1.0/01_longest_common_subsequence.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,

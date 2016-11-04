@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.0\\01_loop_sum.dll",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp1.0/01_loop_sum.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,

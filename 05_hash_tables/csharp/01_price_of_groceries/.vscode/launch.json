@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.0\\01_price_of_groceries.dll",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp1.0/01_price_of_groceries.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,

@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.0\\04_recursive_max.dll",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp1.0/04_recursive_max.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,

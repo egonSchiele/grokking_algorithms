@@ -6,7 +6,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\bin\\Debug\\netcoreapp1.0\\01_dijkstras_algorithm.dll",
+            "program": "${workspaceRoot}/bin/Debug/netcoreapp1.0/01_dijkstras_algorithm.dll",
             "args": [],
             "cwd": "${workspaceRoot}",
             "externalConsole": false,
