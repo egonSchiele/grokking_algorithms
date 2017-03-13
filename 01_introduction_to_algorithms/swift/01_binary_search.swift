@@ -1,11 +1,3 @@
-//
-//  main.swift
-//  01_binary_search
-//
-//  Created by Anthony Marchenko on 3/13/17.
-//  Copyright © 2017 Anthony Marchenko. All rights reserved.
-//
-
 import Foundation
 
 func binarySearch <T: Comparable>(_ list: [T], item: T) -> Int? {
@@ -30,7 +22,6 @@ func binarySearch <T: Comparable>(_ list: [T], item: T) -> Int? {
     }
     
     return nil
-    //'nil' means empty value in Swift. We use it to indicate that the item wasn't found.
 }
 
 let myList = [1, 3, 5, 7, 9]
