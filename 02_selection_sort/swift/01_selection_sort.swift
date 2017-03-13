@@ -19,7 +19,7 @@ func findSmallestIndex <T: Comparable> (_ arr: [T]) -> Int {
     return smallestIndex
 }
 
-// Sort array 
+// Sort array
 func selectionSort <T: Comparable> (arr: [T]) -> [T] {
     var newArr: [T] = []
     // We have to make mutableArray reference copy of original array, because Swift 3 doesn't allow to get var parameter

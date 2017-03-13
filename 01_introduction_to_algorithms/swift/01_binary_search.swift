@@ -1,5 +1,6 @@
 import Foundation
 
+// Note: If you aren’t familiar with Comparable, please check out “Generics” chapter in Swift book
 func binarySearch <T: Comparable>(_ list: [T], item: T) -> Int? {
     // low and high keep track of which part of the list you'll search in.
     var low = 0
