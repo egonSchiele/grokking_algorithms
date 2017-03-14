@@ -1,6 +1,6 @@
 import Foundation
 
-// As I can see Swift doesn't have Queue as default value, so we have to take custom implementation of Degue from Swift Algorithm Club
+// As I can see Swift doesn't have Queue default implementation, so we have to use custom on, Degue structure from Swift Algorithm Club
 // https://github.com/raywenderlich/swift-algorithm-club/tree/master/Deque
 public struct Deque<T> {
     private var array = [T]()
@@ -62,7 +62,7 @@ graph["jonny"] = []
 
 func search(name: String) -> Bool {
     var searchQueue = Deque<String>()
-    //Swift Note: Out custom Deque doesn't have possibility to add new element as array so we have to add elements one by one insted of +=graph["person"] book example
+    //Swift Note: Our custom Deque doesn't have possibility to add new element as array so we have to add elements one by one (insted of +=graph["person"] in the book example)
     for string in graph[name]! {
         searchQueue.enqueue(string)
     }
