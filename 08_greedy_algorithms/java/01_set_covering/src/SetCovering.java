@@ -1,6 +1,7 @@
 import java.util.*;
 
 public class SetCovering {
+
     public static void main(String[] args) {
         Set<String> statesNeeded = new HashSet(Arrays.asList("mt", "wa", "or", "id", "nv", "ut", "ca", "az"));
         Map<String, Set<String>> stations = new LinkedHashMap<>();
@@ -31,6 +32,6 @@ public class SetCovering {
                 }
             }
         }
-        System.out.println(finalStations);
+        System.out.println(finalStations); // [ktwo, kone, kthree, kfive]
     }
 }
