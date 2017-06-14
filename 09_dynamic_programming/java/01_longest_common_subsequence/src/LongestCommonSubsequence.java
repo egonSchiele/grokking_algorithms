@@ -2,7 +2,7 @@ import java.util.Arrays;
 
 public class LongestCommonSubsequence {
     public static void main(String[] args) {
-//        if (word_a[i] == word_b[1]) {
+//        if (word_a[i] == word_b[j]) {
 //            cell[i][j] = cell[i - 1][j - 1] + 1;
 //        } else {
 //            cell[i][j] = Math.Max(cell[i - 1][j], cell[i][j - 1]);
@@ -24,7 +24,11 @@ public class LongestCommonSubsequence {
                     }
                 } else {
                     // The letters don't match.
-                    if (i > 0 && j > 0) {
+                    if (i == 0 && j > 0) {
+                        cell[i][j] = cell[i][j - 1];
+                    } else if (i > 0 && j == 0) {
+                        cell[i][j] = cell[i - 1][j];
+                    } else if (i > 0 && j > 0) {
                         cell[i][j] = Math.max(cell[i - 1][j], cell[i][j - 1]);
                     } else {
                         cell[i][j] = 0;
