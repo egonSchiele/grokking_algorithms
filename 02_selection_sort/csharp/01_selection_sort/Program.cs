@@ -10,7 +10,7 @@ namespace ConsoleApplication
             var arr = new List<int> { 5, 3, 6, 2, 10 };
             Console.WriteLine(string.Join(", ", SelectionSort(arr)));
             
-            var list = new LinkedList<int>(arr);
+            var list = new LinkedList<int>(new[] { 5, 3, 6, 2, 10 });
             Console.WriteLine(string.Join(", ", SelectionSort(list)));
         }
 
