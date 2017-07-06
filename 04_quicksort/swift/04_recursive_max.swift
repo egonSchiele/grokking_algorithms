@@ -3,6 +3,8 @@ import Foundation
 func max(list : [Int]) -> Int {
     if list.count == 2 {
         return (list[0] > list[1]) ? list[0] : list[1]
+    } else if list.count < 2 {
+        return list.first ?? 0
     }
     var tempArray = list
     tempArray.remove(at: 0)
