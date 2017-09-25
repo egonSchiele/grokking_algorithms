@@ -1,5 +1,5 @@
 def greet2(name: String): Unit = {
-println("how are you, " + name + "?")
+  println("how are you, " + name + "?")
 }
 
 def bye(): Unit = {
