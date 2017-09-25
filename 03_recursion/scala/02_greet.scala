@@ -7,10 +7,10 @@ def bye(): Unit = {
 }
 
 def greet(name: String): Unit = {
-println("hello, " + name + "!")
-greet2(name)
-println("getting ready to say bye...")
-bye()
+  println("hello, " + name + "!")
+  greet2(name)
+  println("getting ready to say bye...")
+  bye()
 }
 
 greet("adit")
