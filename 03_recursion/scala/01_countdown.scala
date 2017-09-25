@@ -5,3 +5,4 @@ def countdown(i: Int): Int = {
   //recursive case
   else countdown(i-1)
 }
+countdown(5)
