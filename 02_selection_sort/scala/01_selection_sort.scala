@@ -1,12 +1,10 @@
+//Finds the smallest value in an array
 def findSmallest(arr: Array[Int]): Int = {
   //Stores the smallest value
   var smallest = arr(0)
-  //Stores the index of the smallest value
-  var smallest_index = 0
   for(i <- 1 until arr.length){
     if(arr(i) < smallest) {
       smallest = arr(i)
-      smallest_index = i
     }
   }
   return smallest
@@ -20,7 +18,7 @@ def selectionSort(arr: Array[Int]): Array[Int] = {
     val smallest = findSmallest(arr)
     newArr(i) = smallest
     //Sets current smallest value in array above largest value to avoid reusing values
-    arr(arr.indexOf(smallest)) =  arr.max + 1
+    arr(arr.indexOf(smallest)) = arr.max + 1
   }
   return newArr
 }
