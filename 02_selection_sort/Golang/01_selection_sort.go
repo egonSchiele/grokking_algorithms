@@ -33,5 +33,5 @@ func selectionSort(arr []int) []int {
 
 func main() {
 	s := []int{5, 3, 6, 2, 10}
-	fmt.Printf(fmt.Sprint(selectionSort(s)))
+	fmt.Println(selectionSort(s))
 }
