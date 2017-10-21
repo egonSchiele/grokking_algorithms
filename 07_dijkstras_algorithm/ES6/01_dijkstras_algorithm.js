@@ -32,16 +32,6 @@ const findLowestCostNode = (itCosts) => {
   let lowestCost = Infinity;
   let lowestCostNode = null;
 
-  // Go through each node
-  // for (const node in itCosts) {
-  //   const cost = itCosts[node];
-  //   // If it's the lowest cost so far and hasn't been processed yet...
-  //   if (cost < lowestCost && (processed.indexOf(node) === -1)) {
-  //     // ... set it as the new lowest-cost node.
-  //     lowestCost = cost;
-  //     lowestCostNode = node;
-  //   }
-  // }
   Object.keys(itCosts).forEach((node) => {
     const cost = itCosts[node];
     // If it's the lowest cost so far and hasn't been processed yet...
