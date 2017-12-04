@@ -3,10 +3,9 @@ const quickSort = (array) => {
     return array;
   }
   const pivot = array[0];
-  const less = array.filter(item => item < pivot);
-  const greater = array.filter(item => item > pivot);
-
-  return [...quickSort(less), pivot, ...quickSort(greater)];
+  const keysAreLessPivot = array.slice(1).filter(key => key <= pivot);
+  const keysAreMorePivot = array.slice(1).filter(key => key > pivot);
+  return [...quickSort(keysAreLessPivot), pivot, ...quickSort(keysAreMorePivot)];
 };
 
 console.log(quickSort([10, 5, 2, 3])); // [2, 3, 5, 10]
