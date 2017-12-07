@@ -1,8 +1,12 @@
-def countdown(i: Int): Int = {
-  println(i)
-  //base case
-  if(i <= 0) return i
-  //recursive case
-  else countdown(i-1)
+object countdown {
+  def main(args: Array[String]): Unit = {
+    def countdown(i: Int): Int = {
+      println(i)
+      //base case
+      if (i <= 0) return i
+      //recursive case
+      else countdown(i - 1)
+    }
+    countdown(5)
+  }
 }
-countdown(5)
