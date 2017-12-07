@@ -1,4 +1,4 @@
-object countdown {
+object Countdown {
   def main(args: Array[String]): Unit = {
     def countdown(i: Int): Int = {
       println(i)
