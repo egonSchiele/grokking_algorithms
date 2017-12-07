@@ -1,4 +1,4 @@
-object groceries {
+object Groceries {
   def main(args: Array[String]): Unit = {
     import scala.collection.mutable
     val book = mutable.Map[String, Double]()
