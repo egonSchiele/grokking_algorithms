@@ -1,4 +1,4 @@
-object checkVoter {
+object CheckVoter {
   def main(args: Array[String]): Unit = {
     import scala.collection.mutable
     val voted = mutable.Map[String, Boolean]()
