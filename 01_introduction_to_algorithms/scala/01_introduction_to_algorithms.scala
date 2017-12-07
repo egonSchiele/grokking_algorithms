@@ -1,4 +1,4 @@
-object binarySearch {
+object BinarySearch {
   def main(args: Array[String]): Unit = {
     def binarySearch(list: List[Int], item: Int): Unit = {
       if (list.isEmpty) println("Item not found")
