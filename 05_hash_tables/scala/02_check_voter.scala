@@ -10,8 +10,8 @@ object checkVoter {
         println("let them vote!")
       }
     }
-    check_voter("tom")
-    check_voter("mike")
-    check_voter("mike")
+    checkVoter("tom")
+    checkVoter("mike")
+    checkVoter("mike")
   }
 }
