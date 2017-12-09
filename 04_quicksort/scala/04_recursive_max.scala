@@ -2,7 +2,7 @@ object Max {
   def main(args: Array[String]): Unit = {
     def max(list: List[Int]): Unit = {
       // if the list contains two items, print the larger one
-      if (list.length == 2) if(list(0) > list(1)) println(list(0)) else println(list(1))
+      if (list.length == 2) if (list(0) > list(1)) println(list(0)) else println(list(1))
       // if the list cntains one item, print it
       else if (list.length == 1) println(list(0))
       // tell user if the list is empty
@@ -12,8 +12,8 @@ object Max {
       // else recurse with the tail of the list
       else max(list.tail)
     }
-     max(List())
-     max(List(4))
-     max(List(1, 10, -4, 5))
+    max(List())
+    max(List(4))
+    max(List(1, 10, -4, 5))
   }
 }
