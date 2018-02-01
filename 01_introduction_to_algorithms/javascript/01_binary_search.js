@@ -1,26 +1,27 @@
 'use strict';
 
-function binary_search(list, item) {
-  let low = 0;
-  let high = list.length - 1;
+function binarySearch(sortedList, item) {
+  var low = 0;
+  var high = sortedList.length - 1;
   
   while (low <= high) {
-    let mid = Math.floor((low + high) / 2);
-    let guess = list[mid];
+    var middle = Math.floor((low + high) / 2);
+    var guess = sortedList[middle];
+
     if (guess === item) {
-      return mid;
+      return middle;
     }
     if (guess > item) {
-      high = mid - 1;
+      high = middle - 1;
     } else {
-      low = mid + 1;
+      low = middle + 1;
     }
   }
   
   return null;
 }
 
-const my_list = [1, 3, 5, 7, 9];
+var my_list = [1, 3, 5, 7, 9];
 
-console.log(binary_search(my_list, 3)); // 1
-console.log(binary_search(my_list, -1)); // null
+console.log(binarySearch(my_list, 3)); // 1
+console.log(binarySearch(my_list, -1)); // null
