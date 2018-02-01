@@ -1,18 +1,18 @@
-const binarySearch = (sortedList, item) => {
+const binarySearch = (list, item) => {
   let low = 0;
-  let high = sortedList.length - 1;
+  let high = list.length - 1;
 
   while (low <= high) {
-    const middle = Math.floor((low + high) / 2);
-    const guess = sortedList[middle];
+    const mid = Math.floor((low + high) / 2);
+    const guess = list[mid];
 
     if (guess === item) {
-      return middle;
+      return mid;
     }
     if (guess > item) {
-      high = middle - 1;
+      high = mid - 1;
     } else {
-      low = middle + 1;
+      low = mid + 1;
     }
   }
 
