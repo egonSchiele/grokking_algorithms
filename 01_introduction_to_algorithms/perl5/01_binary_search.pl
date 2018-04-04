@@ -4,7 +4,7 @@ sub binary_search {
 
     # The borders inside where we are searching in:
     my $low  = 0;
-    my $high = scalar(@list);
+    my $high = $#list;
 
     # Do that until found or until just one element remains:
     while ( $low <= $high ) {
