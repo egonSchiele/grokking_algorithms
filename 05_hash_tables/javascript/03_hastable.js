@@ -4,12 +4,12 @@
  * @param {object} obj
  */
 let HashTable = function( obj ) {
-    this._length = 0;
+    let length = 0;
     this._items = ( function( obj ) {
         let items = {};
         for ( let p in obj ) {
                 items[p] = obj[p];
-                this.length++;
+                length++;
         }
         return items;
     }( obj ) );
@@ -28,7 +28,7 @@ let HashTable = function( obj ) {
         if ( this.has( key ) ) {
             previous = this._items[key];
         } else {
-            this._length++;
+            length++;
         }
 
         this._items[key] = value;
@@ -69,7 +69,7 @@ let HashTable = function( obj ) {
     this.remove = function( key ) {
         if ( this.has( key ) ) {
             let previous = this._items[key];
-            this._length--;
+            length--;
             delete this._items[key];
             return previous;
         } else {
@@ -128,7 +128,7 @@ let HashTable = function( obj ) {
      */
     this.clear = function() {
         this._items = {};
-        this._length = 0;
+        length = 0;
     };
 
     /**
@@ -136,7 +136,7 @@ let HashTable = function( obj ) {
      */
     Object.defineProperty( this, 'length', {
         get: function() {
-            return this._length;
+            return length;
         },
     });
 
