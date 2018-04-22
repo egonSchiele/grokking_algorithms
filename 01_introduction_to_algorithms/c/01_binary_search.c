@@ -1,25 +1,25 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <math.h>
 
-#define SIZE 4;
-
-int binarySearch(int[], int);
+int binarySearch(int[], int, int);
 
 int main()
 {
     int myList[] = {1, 3, 5, 7, 9};
-    printf("%d\n", binarySearch(myList, 3));  // 1
-    printf("%d\n", binarySearch(myList, -1)); //-1
+    int len = sizeof(myList) / sizeof(myList[0]);
+
+    printf("%d\n", binarySearch(myList, 3, len));  // 1
+    printf("%d\n", binarySearch(myList, -1, len)); //-1
     return 0;
 }
 
-int binarySearch(int list[], int item)
+int binarySearch(int list[], int item, int len)
 {
     int low = 0;
-    int high = SIZE;
+    int high = len;
     while (low <= high)
     {
-        int mid = (int)((low + high) / 2);
+        int mid = floor((low + high) / 2); //math.h floor
         int guess = list[mid];
 
         if (guess == item)
