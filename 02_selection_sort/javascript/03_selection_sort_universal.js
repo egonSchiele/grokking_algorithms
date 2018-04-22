@@ -53,5 +53,5 @@ const selectionSort = ( arr, mod ) => {
 
 let arr = [5, 3, 6, 2, 10];
 
-console.log( selectionSort( arr, true ) );
-console.log( selectionSort( arr, false ) );
+console.log( selectionSort( arr, true ) ); // [ 2, 3, 5, 6, 10 ]
+console.log( selectionSort( arr, false ) ); // [ 10, 6, 5, 3, 2 ]
