@@ -6,12 +6,12 @@
  *
  * @return {number} GCD (greatest common divisor)
  */
-let getGCD = ( a, b ) => {
+function getGCD( a, b ) {
     if ( !b ) {
         return a;
     }
     return getGCD( b, a % b );
-};
+}
 
 const a = 1680;
 const b = 640;
