@@ -7,6 +7,7 @@ def findSmallest(arr):
   for i in range(1, len(arr)):
     if arr[i] < smallest:
       smallest_index = i
+      smallest = arr[i]      
   return smallest_index
 
 # Sort array
