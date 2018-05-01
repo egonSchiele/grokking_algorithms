@@ -4,10 +4,10 @@
  * @param {number} item Search item
  * @param {number} low Lower limit of search in the list
  * @param {number} high Highest limit of search in the list
- * @param {number} arrLength Length of the list
  * @return {(number | null)} Number if the value is found or NULL otherwise
  */
-const binarySearch = ( list, item, low, high, arrLength ) => {
+const binarySearch = ( list, item, low, high ) => {
+    let arrLength = list.length;
     while ( low <= high ) {
         let mid = Math.floor((low + high) / 2);
         let guess = list[mid];
@@ -36,9 +36,8 @@ const binarySearch = ( list, item, low, high, arrLength ) => {
 const createArr = ( n ) => Array.from({length: n}, (v, k) => k + 1);
 
 const myList = createArr( 100 );
-const arrLength = myList.length;
 let low = 0;
-let high = arrLength - 1;
+let high = myList.length - 1;
 
-console.log( '3 ' + binarySearch( myList, 3, low, high, arrLength ) ); // 2
-console.log( '-1 ' + binarySearch( myList, -1, low, high, arrLength ) ); // null
+console.log( binarySearch( myList, 3, low, high ) ); // 2
+console.log( binarySearch( myList, -1, low, high ) ); // null
