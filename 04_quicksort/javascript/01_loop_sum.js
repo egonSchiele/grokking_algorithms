@@ -4,7 +4,6 @@
  * @return {number} Sum of the numbers
  */
 function sumLoop( arr ) {
-    var newArr = Array.prototype.slice.call( arr );
     var result = 0;
 
     for ( var i = 0; i < newArr.length; i++ ) {

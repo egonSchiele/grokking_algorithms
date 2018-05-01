@@ -4,7 +4,6 @@
  * @return {number} Sum of the numbers
  */
 const sumReduce = ( arr ) => {
-    const newArr = Array.prototype.slice.call( arr );
     let result = newArr.reduce( ( curr, prev ) => {
         return curr + prev;
     } );
