@@ -1,4 +1,3 @@
-
 /**
  * Search for LCS
  *
@@ -7,12 +6,12 @@
  *
  * @return {object} with keys: lcs, offset, sequence
  */
-function lcs( string1, string2 ) {
-	if ( !string1 || !string2 ) {
+function lcs(string1, string2) {
+	if (!string1 || !string2) {
 		return {
 			lcs: 0,
 			offset: 0,
-			sequence: '',
+			sequence: ""
 		};
 	}
 
@@ -33,7 +32,7 @@ function lcs( string1, string2 ) {
 	 * - the number of rows is equal to the length of the first string + 1
 	 * - the number of columns is equal to the length of the second string + 1
 	 */
-	for ( row = 0; row <= len1; row++ ) {
+	for (row = 0; row <= len1; row++) {
 		table[row] = [];
 		for (col = 0; col <= len2; col++) {
 			table[row][col] = 0;
@@ -44,36 +43,36 @@ function lcs( string1, string2 ) {
 	let i;
 	let j;
 
-	for ( i = 0; i < len1; i++ ) {
-		for ( j = 0; j < len2; j++ ) {
-			if ( string1[i] === string2[j] ) {
+	for (i = 0; i < len1; i++) {
+		for (j = 0; j < len2; j++) {
+			if (string1[i] === string2[j]) {
 				// The letters match
-				if ( table[i][j] === 0 ) {
-					table[i+1][j+1] = 1;
+				if (table[i][j] === 0) {
+					table[i + 1][j + 1] = 1;
 				} else {
-					table[i+1][j+1] = table[i][j] + 1;
+					table[i + 1][j + 1] = table[i][j] + 1;
 				}
 
 				// increment lcs if it's needed
-				if ( table[i+1][j+1] > lcs ) {
-					lcs = table[i+1][j+1];
+				if (table[i + 1][j + 1] > lcs) {
+					lcs = table[i + 1][j + 1];
 					lastSubIndex = i;
 				}
 			} else {
 				// The letters don't match
-				table[i+1][j+1] = 0;
+				table[i + 1][j + 1] = 0;
 			}
 		}
 	}
 
 	return {
 		lcs: lcs,
-		offset: lastSubIndex-lcs + 1,
-		sequence: string1.slice( lastSubIndex - lcs + 1, lastSubIndex + 1 ),
+		offset: lastSubIndex - lcs + 1,
+		sequence: string1.slice(lastSubIndex - lcs + 1, lastSubIndex + 1)
 	};
 }
 
-console.log( lcs( 'hish', 'fish' ) ); // { lcs: 3, offset: 1, sequence: 'ish' }
-console.log( lcs( 'vista', 'hish' ) ); // { lcs: 2, offset: 1, sequence: 'is' }
-console.log( lcs( 'google', 'abcdefgooglehijklm' ) ); // { lcs: 6, offset: 0, sequence: 'google' }
-console.log( lcs( '0', 0 ) ); // { lcs: 0, offset: 0, sequence: '' }
+console.log(lcs("hish", "fish")); // { lcs: 3, offset: 1, sequence: 'ish' }
+console.log(lcs("vista", "hish")); // { lcs: 2, offset: 1, sequence: 'is' }
+console.log(lcs("google", "abcdefgooglehijklm")); // { lcs: 6, offset: 0, sequence: 'google' }
+console.log(lcs("0", 0)); // { lcs: 0, offset: 0, sequence: '' }
