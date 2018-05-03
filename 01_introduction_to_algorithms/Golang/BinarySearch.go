@@ -2,18 +2,10 @@ package main
 
 import "fmt"
 
-func getBool(i, j int) bool {
-	if i <= j{
-		return true
-	}else {
-		return false
-	}
-}
-
 func checkBin(list []int, i int) bool {
 	low := 0
 	high := len(list) -1
-	for ok := true;ok ;ok = getBool(low,high)  {
+	for low <= high {
 		mid:= (low+high)/2
 		if list[mid] == i{
 			return true
