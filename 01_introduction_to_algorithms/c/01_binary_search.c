@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <math.h>
 
 int binarySearch(int[], int, int);
 
@@ -19,7 +18,7 @@ int binarySearch(int list[], int item, int len)
     int high = len;
     while (low <= high)
     {
-        int mid = floor((low + high) / 2); //math.h floor
+        int mid = (low + high)/2; 
         int guess = list[mid];
 
         if (guess == item)
@@ -35,5 +34,5 @@ int binarySearch(int list[], int item, int len)
             low = mid + 1;
         }
     }
-    return -1; //number not find
+    return -1; //number not found
 }
