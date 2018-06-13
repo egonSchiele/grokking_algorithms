@@ -4,7 +4,7 @@ import Foundation
 func findSmallestIndex <T: Comparable> (_ arr: [T]) -> Int {
     // Stores the smallest value
     var smallest = arr[0]
-    // We don't need any calculation if the array lenght is 1
+    // We don't need any calculation if the array length is 1
     if arr.count == 1 {
         return 0
     }
