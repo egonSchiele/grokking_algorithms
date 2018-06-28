@@ -8,7 +8,7 @@ function findSmallestIndex(array) {
   var smallestElement = array[0]; // Stores the smallest value
   var smallestIndex = 0; // Stores the index of the smallest value
 
-  for (var i = 0; i < array.length; i++) {
+  for (var i = 1; i < array.length; i++) {
     if (array[i] < smallestElement) {
       smallestElement = array[i];
       smallestIndex = i;
