@@ -27,3 +27,16 @@ highlights/node_modules
 highlights/atom-language-perl6/
 .DS_store
 highlights/package-lock.json
+
+# IDE specific
+.scala_dependencies
+.classpath
+*.iml
+.idea/
+.idea_modules/
+.project
+.settings/
+*.sublime-project
+*.sublime-workspace
+/.env
+atlassian-ide-plugin.xml
