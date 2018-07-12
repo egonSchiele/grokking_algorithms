@@ -5,6 +5,7 @@ def check_voter(name: String): Unit = {
     println("kick them out!")
   } else{
     voted += (name -> true)
+    println("let them vote!")
   }
 }
 check_voter("tom")
