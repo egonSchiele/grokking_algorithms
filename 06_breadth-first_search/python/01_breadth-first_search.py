@@ -21,7 +21,7 @@ def search(name):
     while search_queue:
         person = search_queue.popleft()
         # Only search this person if you haven't already searched them.
-        if not person in searched:
+        if person not in searched:
             if person_is_seller(person):
                 print person + " is a mango seller!"
                 return True
