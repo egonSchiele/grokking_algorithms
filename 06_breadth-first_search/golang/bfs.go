@@ -1,4 +1,4 @@
-package bfs
+package golang
 
 import (
 	"fmt"
