@@ -16,27 +16,27 @@ $stations["kfive"] = new Set(["ca", "az"]);
 $finalStations = new Set();
 
 while (!$statesNeeded->isEmpty()) {
-	$bestStation = null;
-	$statesCovered = new Set();
+    $bestStation = null;
+    $statesCovered = new Set();
 
-	foreach (array_keys($stations) as $station) {
-		$states = $stations[$station];
-		$covered = new Set($statesNeeded);
-		$covered = $covered->filter(function($value) use ($states){
-			return $states->contains($value); 
-		});
+    foreach (array_keys($stations) as $station) {
+        $states = $stations[$station];
+        $covered = new Set($statesNeeded);
+        $covered = $covered->filter(function ($value) use ($states) {
+            return $states->contains($value);
+        });
 
-		if ($covered->count() > $statesCovered->count()) {
-			$bestStation = $station;
-			$statesCovered = $covered;
-		}
-	}
+        if ($covered->count() > $statesCovered->count()) {
+            $bestStation = $station;
+            $statesCovered = $covered;
+        }
+    }
 
-	$statesNeeded = new Set($statesNeeded);
-	$statesNeeded = $statesNeeded->filter(function($value)  use ($statesCovered){
-			return !$statesCovered->contains($value); 
-		});
-	$finalStations->add($bestStation);
+    $statesNeeded = new Set($statesNeeded);
+    $statesNeeded = $statesNeeded->filter(function ($value) use ($statesCovered) {
+        return !$statesCovered->contains($value);
+    });
+    $finalStations->add($bestStation);
 }
 
 print_r($finalStations); // ["kone", "ktwo", "kthree", "kfive"]
