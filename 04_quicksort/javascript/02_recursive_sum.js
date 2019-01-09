@@ -1,10 +1,13 @@
-'use strict';
+const arr = [1, 2, 3, 4];
 
-function sum(list) {
-  if (list.length === 0) {
-    return 0;
-  }
-  return list[0] + sum(list.slice(1));
-}
+/**
+ * Sums values in array recursively
+ * @param {Array} arr Array of numbers
+ * @return {number} Sum of the numbers
+ */
+const sumRecursive = ( arr ) => {
+    if ( arr.length == 1 ) return arr[0];
+    return arr[0] + sumRecursive( arr.slice( 1 ) );
+};
 
-console.log(sum([1, 2, 3, 4])) // 10
+console.log( sumRecursive( arr ) );  // 10
