@@ -6,7 +6,7 @@
  * @param {number} high Highest limit of search in the list
  * @return {(number | null)} Number if the value is found or NULL otherwise
  */
-const binarySearch = ( list, item, low, high ) => {
+const binarySearch = ( list, item, low = 0, high = list.length - 1 ) => {
     let arrLength = list.length;
     while ( low <= high ) {
         let mid = Math.floor((low + high) / 2);
@@ -36,8 +36,6 @@ const binarySearch = ( list, item, low, high ) => {
 const createArr = ( n ) => Array.from({length: n}, (v, k) => k + 1);
 
 const myList = createArr( 100 );
-let low = 0;
-let high = myList.length - 1;
 
-console.log( binarySearch( myList, 3, low, high ) ); // 2
-console.log( binarySearch( myList, -1, low, high ) ); // null
+console.log( binarySearch( myList, 3 ) ); // 2
+console.log( binarySearch( myList, -1 ) ); // null
