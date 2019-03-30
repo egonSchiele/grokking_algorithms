@@ -39,10 +39,10 @@ func search(name string) bool {
 			if PersonIsSeller(person) {
 				fmt.Println(person + " is the mango seller!")
 				return true
-			} else {
-				search_queue = append(search_queue, graph[person]...)
-				searched = append(searched, person)
 			}
+
+			search_queue = append(search_queue, graph[person]...)
+			searched = append(searched, person)
 		}
 
 	}
