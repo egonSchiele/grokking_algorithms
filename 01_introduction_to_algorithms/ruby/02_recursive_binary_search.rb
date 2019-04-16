@@ -23,4 +23,4 @@ my_list = (1..100).to_a
 
 puts binary_search(my_list, 2) # => 1
 puts binary_search(my_list, 50) # => 49
-puts binary_search(my_list, 101) # => nil
+p binary_search(my_list, 101) # => nil
