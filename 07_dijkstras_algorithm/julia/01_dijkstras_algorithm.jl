@@ -1,4 +1,5 @@
 # Julia version: LTS (v1.0.3)
+using Test
 
 graph = Dict()
 graph["start"] = Dict()
@@ -60,3 +61,4 @@ end
 
 println("Cost from the start to each node:")
 println(costs)
+@test costs == Dict("fin"=>6,"b"=>2,"a"=>5)
