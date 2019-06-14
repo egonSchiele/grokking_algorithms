@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	//Creating data to search trough
+	//Creating data to search through
 	sliceToSearch := []int{1, 3, 5, 7, 9}
 	//What we are searching for
 	target := 9
