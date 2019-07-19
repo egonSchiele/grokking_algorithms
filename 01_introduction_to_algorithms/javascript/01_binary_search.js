@@ -4,7 +4,7 @@
  * Searches recursively number from the list
  * @param {Array} list Source array
  * @param {number} item Search item
- * @returns {number|null} Number if the value is found or NULL otherwise
+ * @returns {(number|null)} Number if the value is found or NULL otherwise
  */
 function binary_search(list, item) {
   let low = 0;
