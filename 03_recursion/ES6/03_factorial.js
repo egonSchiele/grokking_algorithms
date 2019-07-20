@@ -1,7 +1,9 @@
-const fact = (x) => {
-  if (x === 1) {
-    return 1;
-  }
+/**
+ * Consider the factorial of the number
+ * @param {number} x Number
+ */
+const fact = x => {
+  if (x === 1) return 1;
   return x * fact(x - 1);
 };
 
