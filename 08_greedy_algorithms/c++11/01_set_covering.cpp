@@ -3,9 +3,9 @@
 #include <unordered_map>
 
 std::unordered_set<std::string> operator & (const std::unordered_set<std::string>&, 
-											const std::unordered_set<std::string>&);
+				            const std::unordered_set<std::string>&);
 void operator -= (std::unordered_set<std::string>&, 
-				  const std::unordered_set<std::string>&);
+	          const std::unordered_set<std::string>&);
 
 int main() {
 	std::unordered_set<std::string> statesNeeded({ "mt", "wa", "or", "id", "nv", "ut", "ca", "az" });
@@ -41,7 +41,7 @@ int main() {
 }
 
  std::unordered_set<std::string> operator & (const std::unordered_set<std::string>& a,
-											 const std::unordered_set<std::string>& b) {
+					     const std::unordered_set<std::string>& b) {
 	 std::unordered_set<std::string> result;
 	 for (const auto& i : a)
 		 for (const auto& j : b)
@@ -51,7 +51,7 @@ int main() {
  }
 
 void operator -= (std::unordered_set<std::string>& a,
-				  const std::unordered_set<std::string>& b) {
+		  const std::unordered_set<std::string>& b) {
 	for (auto j = b.begin(); j != b.end(); ++j)
 		for (auto i = a.begin(); i != a.end(); )
 			if (*i == *j) i = a.erase(i);
