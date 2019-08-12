@@ -3,7 +3,7 @@
 
 int main() {
 	std::string wordA = "Fish", wordB = "Fosh";
-	const size_t& aSize = wordA.size(), & bSize = wordB.size();
+	const size_t& aSize = wordA.size(), &bSize = wordB.size();
 
 	size_t** table = new size_t * [aSize];
 	for (size_t l = 0; l < aSize; ++l)
