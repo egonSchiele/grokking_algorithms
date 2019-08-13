@@ -5,7 +5,7 @@ int main() {
 	std::string wordA = "Fish", wordB = "Fosh";
 	const size_t& aSize = wordA.size(), &bSize = wordB.size();
 
-	size_t** table = new size_t * [aSize];
+	size_t** table = new size_t* [aSize];
 	for (size_t l = 0; l < aSize; ++l)
 		table[l] = new size_t[bSize]{}; // all values in table will be initialized as zero
 
