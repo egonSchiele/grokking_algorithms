@@ -17,7 +17,7 @@ int main() {
 	stations.insert({ "kfour", {"nv", "ut" } });
 	stations.insert({ "kfive", {"ca", "az" } });
 
-	std::unordered_set <std::string> finalStations;
+	std::unordered_set<std::string> finalStations;
 
 	while (!statesNeeded.empty()) {
 		std::string bestStation;
