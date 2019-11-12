@@ -39,7 +39,7 @@ function subsequence(a, b) {
 
   for (let i = 1; i <= a.length; i++) {
     for (let j = 1; j <= b.length; j++) {
-      if (a[i] === b[j]) {
+      if (a[i - 1] === b[j - 1]) {
         cell[i][j] = cell[i - 1][j - 1] + 1;
       } else {
         cell[i][j] = Math.max(cell[i - 1][j], cell[i][j - 1]);
