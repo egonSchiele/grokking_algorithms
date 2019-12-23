@@ -1,4 +1,4 @@
-const fact = (x) => {
+const fact = x => {
   if (x === 1) {
     return 1;
   }
