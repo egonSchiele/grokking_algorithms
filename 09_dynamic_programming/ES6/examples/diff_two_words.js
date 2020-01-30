@@ -1,8 +1,8 @@
-import base from './base';
+import { initializeMatrix } from "./base";
 
 const diff = (firstWord, secondWord) => {
-  const arr1 = firstWord.split('');
-  const arr2 = secondWord.split('');
+  const arr1 = firstWord.split("");
+  const arr2 = secondWord.split("");
   const matrix = initializeMatrix(arr1, arr2);
   for (let i = 0; i < arr1.length; i += 1) {
     for (let j = 0; j < arr2.length; j += 1) {

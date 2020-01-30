@@ -1,4 +1,4 @@
-// Selection Sort - O(log n^2)
+// Selection Sort - O(n^2)
 // Parameter:
 //  1. random array
 

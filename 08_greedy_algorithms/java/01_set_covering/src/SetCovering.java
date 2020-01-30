@@ -25,11 +25,11 @@ public class SetCovering {
                     bestStation = station.getKey();
                     statesCovered = covered;
                 }
-                statesNeeded.removeIf(statesCovered::contains);
+            }
+            statesNeeded.removeIf(statesCovered::contains);
 
-                if (bestStation != null) {
-                    finalStations.add(bestStation);
-                }
+            if (bestStation != null) {
+                finalStations.add(bestStation);
             }
         }
         System.out.println(finalStations); // [ktwo, kone, kthree, kfive]

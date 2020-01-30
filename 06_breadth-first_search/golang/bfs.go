@@ -5,11 +5,45 @@ import (
 )
 
 func PersonIsSeller(name string) bool {
-	/* Assuming the person whose name ends with m as the mango seller as per the book */
 	return string(name[len(name)-1]) == "m"
 }
 
-func search(name string) bool {
+func search(aGraph map[string][]string, name string) bool {
+
+	//search queue
+	var searchQueue []string
+	searchQueue = append(searchQueue, aGraph[name]...)
+	var searched []string
+
+	for len(searchQueue) > 0 {
+		var person = searchQueue[0]
+		searchQueue = searchQueue[1:]
+		personAlreadySearched := false
+
+		/* Checking to see if this person has already been searched */
+		for i := 0; i < len(searched); i++ {
+			if searched[i] == person {
+				personAlreadySearched = true
+
+			}
+		}
+
+		if personAlreadySearched == false {
+			if PersonIsSeller(person) {
+				fmt.Println(person, "is a mango seller!")
+				return true
+			}
+
+			searchQueue = append(searchQueue, aGraph[person]...)
+			searched = append(searched, person)
+		}
+
+	}
+	return false
+
+}
+
+func main() {
 	graph := make(map[string][]string)
 	graph["you"] = []string{"alice", "bob", "claire"}
 	graph["bob"] = []string{"anuj", "peggy"}
@@ -20,36 +54,5 @@ func search(name string) bool {
 	graph["thom"] = []string{}
 	graph["jonny"] = []string{}
 
-	//search queue
-	var search_queue []string
-	search_queue = append(search_queue, graph[name]...)
-	var searched []string
-	for len(search_queue) > 0 {
-		var person = search_queue[0]
-		search_queue = search_queue[1:]
-		var person_already_searched = false
-		/* Checking to see if this person has already been searched */
-		for i := 0; i < len(searched); i++ {
-			if searched[i] == person {
-				person_already_searched = true
-
-			}
-		}
-		if person_already_searched == false {
-			if PersonIsSeller(person) {
-				fmt.Println(person + " is the mango seller!")
-				return true
-			} else {
-				search_queue = append(search_queue, graph[person]...)
-				searched = append(searched, person)
-			}
-		}
-
-	}
-	return false
-
-}
-
-func main() {
-	search("you")
+	search(graph, "you")
 }

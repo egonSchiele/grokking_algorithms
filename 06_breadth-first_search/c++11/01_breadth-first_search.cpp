@@ -18,9 +18,8 @@ bool search(const T& name, const std::unordered_map<T, std::vector<T>>& graph) {
     std::unordered_set<T> searched;
 
     // add all friends to search queue
-    for (auto friend_name : graph.find(name) -> second) {
+    for (auto&& friend_name : graph.find(name) -> second)
         search_queue.push(friend_name);
-    }
 
     while (!search_queue.empty()) {
         T& person = search_queue.front();
@@ -32,12 +31,10 @@ bool search(const T& name, const std::unordered_map<T, std::vector<T>>& graph) {
                 cout << person << " is a mango seller!" << endl;
                 return true;
             }
-            std::vector<T> friend_list = graph.find(person) -> second;
             
             // add all friends of a person to search queue
-            for (T friend_name : friend_list) {
+            for (auto&& friend_name : graph.find(person) -> second)
                 search_queue.push(friend_name);
-            }
 
             // mark this person as searched
             searched.insert(person);

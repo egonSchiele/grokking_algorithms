@@ -14,6 +14,7 @@ public class BreadthFirstSearch {
             if (!searched.contains(person)) {
                 if (person_is_seller(person)) {
                     System.out.println(person + " is a mango seller!");
+                    return true;
                 } else {
                     searchQueue.addAll(graph.get(person));
                     // Marks this person as searched
