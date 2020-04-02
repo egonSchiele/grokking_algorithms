@@ -1,9 +1,9 @@
 'use strict';
 
 function max(list) {
-  if (list.length === 2) {
-    return list[0] > list[1] ? list[0] : list[1];
-  }
+   if(list.length===1){
+	return list[0];
+   }
   let sub_max = max(list.slice(1));
   return list[0] > sub_max ? list[0] : sub_max;
 }
