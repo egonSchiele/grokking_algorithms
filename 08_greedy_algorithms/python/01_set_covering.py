@@ -10,16 +10,23 @@ stations["kfive"] = set(["ca", "az"])
 
 final_stations = set()
 
-while states_needed:
-  best_station = None
-  states_covered = set()
-  for station, states_for_station in stations.items():
-    covered = states_needed & states_for_station
-    if len(covered) > len(states_covered):
-      best_station = station
-      states_covered = covered
+def my_set_covering(states_needed, stations):
+    final_stations = set()
+    #while states_needed is not None: 这个不对，Set()而不是None
+    while states_needed:
+        best_station = None
+        states_covered = set()
+        for station, states_for_station in stations.items():
+            covered = states_needed & states_for_station
+            if len(covered) > len(states_covered) and station not in final_stations:
+                best_station = station
+                states_covered = covered
+        if best_station is not None:
+            states_needed -= states_covered
+            final_stations.add(best_station)
+            stations.pop(best_station)
+        else:
+            return None
+    return final_stations
 
-  states_needed -= states_covered
-  final_stations.add(best_station)
-
-print(final_stations)
+print(my_set_covering(states_needed, stations))
