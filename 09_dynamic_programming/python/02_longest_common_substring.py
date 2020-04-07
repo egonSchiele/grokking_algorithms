@@ -6,8 +6,6 @@ print(dp_table)
 for i in range(0, len(dp_table_blue)):
     for j in range(0, len(dp_table_clues)):
         if dp_table_clues[j] == dp_table_blue[i]:
-            dp_table[j][i] = dp_table[j-1][i-1] + 1
-        else:
-            dp_table[j][i] = max(dp_table[j-1][i], dp_table[j][i-1])
+            dp_table[i][j] = dp_table[i-1][i-1] + 1
 
 print(dp_table)
