@@ -24,6 +24,7 @@ func search(aGraph map[string][]string, name string) bool {
 		for i := 0; i < len(searched); i++ {
 			if searched[i] == person {
 				personAlreadySearched = true
+				break
 
 			}
 		}
