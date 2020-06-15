@@ -4,9 +4,7 @@
  * @return {number} Sum of the numbers
  */
 function sumRecursive(arr) {
-  if (arr.length == 1) {
-    return arr[0];
-  }
+  if (arr.length == 0) return 0;
   return arr[0] + sumRecursive(arr.slice(1));
 }
 
