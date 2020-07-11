@@ -1,8 +1,3 @@
-const fact = (x) => {
-  if (x === 1) {
-    return 1;
-  }
-  return x * fact(x - 1);
-};
+const fact = x => x === 1 ? 1 : x * fact(--x);
 
 console.log(fact(5));
