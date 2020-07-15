@@ -1,9 +1,17 @@
-const max = (list) => {
-  if (list.length === 2) {
-    return list[0] > list[1] ? list[0] : list[1];
+const max = ([head, second, ...tail]) => {
+  if (head === undefined) {
+    return null;
   }
-  const subMax = max(list.slice(1));
-  return list[0] > subMax ? list[0] : subMax;
+
+  if (second === undefined) {
+    return head;
+  }
+
+  if (head < second) {
+    head = second;
+  }
+
+  return max([head, ...tail]);
 };
 
 console.log(max([1, 5, 10, 25, 16, 1])); // 25
