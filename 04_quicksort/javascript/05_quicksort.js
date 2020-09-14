@@ -1,8 +1,13 @@
+"use strict";
+
+/**
+ * Quick array sorting
+ * @param {Array} array Source array
+ * @returns {Array} Sorted array
+ */
 function quicksort(array) {
-  if (array.length < 2) {
-    // base case, arrays with 0 or 1 element are already "sorted"
-    return array;
-  }
+  // base case, arrays with 0 or 1 element are already "sorted"
+  if (array.length < 2) return array;
   // recursive case
   let pivot = array[0];
   // sub-array of all the elements less than the pivot
