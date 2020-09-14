@@ -1,12 +1,12 @@
 /**
- * Sums values in array by loop "for"
- * @param {Array} arr Array of numbers
- * @return {number} Sum of the numbers
+ * Sums values in the array by loop "for"
+ * @param {Array} array Array of numbers
+ * @returns {number} Sum of the numbers
  */
-const sumLoop = arr => {
+const sumLoop = array => {
   let result = 0;
-  for (let i = 0; i < arr.length; i++) {
-    result += arr[i];
+  for (let i = 0; i < array.length; i++) {
+    result += array[i];
   }
   return result;
 };

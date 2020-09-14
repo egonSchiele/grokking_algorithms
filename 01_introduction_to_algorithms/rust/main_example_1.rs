@@ -1,3 +1,8 @@
+// name = "binary-search"
+// version = "0.1.0"
+// authors = ["giorgiodelgado <hi@gdelgado.ca>"]
+//
+
 // to run tests, you must have rust and cargo installed
 // then run `cargo test`
 

@@ -21,21 +21,25 @@ costs.fin = Infinity;
 
 // the parents table
 const parents = {};
-parents.a = 'start';
-parents.b = 'start';
+parents.a = "start";
+parents.b = "start";
 parents.fin = null;
 
 let processed = [];
 
-
-const findLowestCostNode = (itCosts) => {
+/**
+ * Find the lowest node
+ * @param {Object} itCosts Hash table
+ * @returns {(string|null)} The lowest node
+ */
+const findLowestCostNode = itCosts => {
   let lowestCost = Infinity;
   let lowestCostNode = null;
 
-  Object.keys(itCosts).forEach((node) => {
+  Object.keys(itCosts).forEach(node => {
     const cost = itCosts[node];
     // If it's the lowest cost so far and hasn't been processed yet...
-    if (cost < lowestCost && (processed.indexOf(node) === -1)) {
+    if (cost < lowestCost && processed.indexOf(node) === -1) {
       // ... set it as the new lowest-cost node.
       lowestCost = cost;
       lowestCostNode = node;
@@ -50,7 +54,7 @@ while (node !== null) {
   const cost = costs[node];
   // Go through all the neighbors of this node
   const neighbors = graph[node];
-  Object.keys(neighbors).forEach((n) => {
+  Object.keys(neighbors).forEach(n => {
     const newCost = cost + neighbors[n];
     // If it's cheaper to get to this neighbor by going through this node
     if (costs[n] > newCost) {
@@ -68,5 +72,5 @@ while (node !== null) {
   node = findLowestCostNode(costs);
 }
 
-console.log('Cost from the start to each node:');
+console.log("Cost from the start to each node:");
 console.log(costs); // { a: 5, b: 2, fin: 6 }
