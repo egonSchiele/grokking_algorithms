@@ -17,6 +17,7 @@ void greet(std::string name) {
     cout << "Hello, " + name + "!" << endl;
     greet2(name);
     cout << "Getting ready to say bye..." << endl;
+    bye();
 }
 
 

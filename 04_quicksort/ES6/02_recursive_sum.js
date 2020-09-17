@@ -1,8 +1,8 @@
-const sum = (list) => {
-  if (list.length === 0) {
-    return 0;
-  }
-  return list[0] + sum(list.slice(1));
-};
+/**
+ * Sums values in the array by recursive
+ * @param {Array} array Array of numbers
+ * @returns {number} Sum of the numbers
+ */
+const sum = array => (array.length === 0 ? 0 : array[0] + sum(array.slice(1)));
 
 console.log(sum([1, 2, 3, 4])); // 10

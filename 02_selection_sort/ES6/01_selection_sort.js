@@ -3,7 +3,7 @@
  * @param {Array} array Source array
  * @returns {number} Index of the element with the smallest value
  */
-const findSmallestIndex = array => {
+const findSmallestIndex = (array) => {
   let smallestElement = array[0]; // Stores the smallest value
   let smallestIndex = 0; // Stores the index of the smallest value
 
@@ -22,7 +22,7 @@ const findSmallestIndex = array => {
  * @param {Array} array Source array
  * @returns {Array} New sorted array
  */
-const selectionSort = array => {
+const selectionSort = (array) => {
   const sortedArray = [];
   const copyArray = [...array];
 

@@ -1,7 +1,3 @@
-function person_is_seller(name) {
-  return name[name.length - 1] === "m";
-}
-
 const graph = {};
 graph["you"] = ["alice", "bob", "claire"];
 graph["bob"] = ["anuj", "peggy"];
@@ -12,6 +8,20 @@ graph["peggy"] = [];
 graph["thom"] = [];
 graph["jonny"] = [];
 
+/**
+ * Determine whether a person is a seller
+ * @param {string} name Friend's name
+ * @returns {boolean} Result of checking
+ */
+function personIsSeller(name) {
+  return name[name.length - 1] === "m";
+}
+
+/**
+ * Find a mango seller
+ * @param {string} name Friend's name
+ * @returns {boolean} Search results
+ */
 function search(name) {
   let search_queue = [];
   search_queue = search_queue.concat(graph[name]);
@@ -21,7 +31,7 @@ function search(name) {
     let person = search_queue.shift();
     // Only search this person if you haven't already searched them
     if (searched.indexOf(person) === -1) {
-      if (person_is_seller(person)) {
+      if (personIsSeller(person)) {
         console.log(person + " is a mango seller!");
         return true;
       }
