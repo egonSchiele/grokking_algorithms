@@ -3,7 +3,7 @@
 @voted = {}
 
 def check_voter(name)
-  if @voted.key?(name) && @voted[name]
+  if @voted[name]
     puts "kick them out!"
   else
     @voted[name] = true

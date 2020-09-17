@@ -18,7 +18,7 @@ const findSmallest = ( arr ) => {
 };
 
 /**
- * Sorts0 recursively an array of numbers
+ * Sorts recursively an array of numbers
  * @param {Array} arr An array of numbers
  * @return {Array} New sorted array
  */

@@ -10,7 +10,7 @@ T sum(std::vector<T> arr) {
 
     T last_num = arr.back(); // save last number value
     arr.pop_back();  // and remove it from array for next recursive call
-    return first_num + sum(arr);
+    return last_num + sum(arr);
 }
 
 int main() {
