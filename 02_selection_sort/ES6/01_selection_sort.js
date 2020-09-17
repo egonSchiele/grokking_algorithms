@@ -1,4 +1,4 @@
-// Selection Sort - O(log n^2)
+// Selection Sort - O(n^2)
 // Parameter:
 //  1. random array
 
@@ -19,17 +19,21 @@ const findSmallestIndex = (array) => {
 
 // 2. Sorts the array
 const selectionSort = (array) => {
+  //Copy values from array, because it must be immutable. Without that after call selectionSort origin array will become empty.
+  const sortingArray = [...array];
   const sortedArray = [];
-  const length = array.length;
+  const length = sortingArray.length;
 
   for (let i = 0; i < length; i++) {
     // Finds the smallest element in the given array 
-    const smallestIndex = findSmallestIndex(array);
+    const smallestIndex = findSmallestIndex(sortingArray);
     // Adds the smallest element to new array
-    sortedArray.push(array.splice(smallestIndex, 1)[0]);
+    sortedArray.push(sortingArray.splice(smallestIndex, 1)[0]);
   }
 
   return sortedArray;
 };
 
-console.log(selectionSort([5, 3, 6, 2, 10])); // [2, 3, 5, 6, 10]
+const array = [5, 3, 6, 2, 10];
+console.log(selectionSort(array)); // [2, 3, 5, 6, 10]
+console.log(array); // [5, 3, 6, 2, 10]

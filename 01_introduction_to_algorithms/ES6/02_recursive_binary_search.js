@@ -8,6 +8,7 @@
  */
 const binarySearch = (list, item, low = 0, high = list.length - 1) => {
   if (low > high) return null;
+
   const mid = Math.floor((low + high) / 2);
   const guess = list[mid];
 

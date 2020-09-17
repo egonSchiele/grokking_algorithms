@@ -1,0 +1,71 @@
+package SearchAndSort
+
+import scala.collection.immutable.HashMap
+import scala.collection.{immutable, mutable}
+
+
+object BreadthFirstSearch extends App {
+
+  val graph  = HashMap(
+    ("you" -> Vector("alice", "bob", "claire")),
+    ("bob" -> Vector("anuj", "peggy")),
+    ("alice" -> Vector("peggy")),
+    ("claire" -> Vector("thom", "johnny")),
+    ("anuj" -> Vector()),
+    ("peggy" -> Vector()),
+    ("thom" -> Vector()),
+    ("jonny" -> Vector()),
+  )
+
+  def personIsSeller(name: String): Boolean =
+    name.endsWith("z")
+
+  def search(name: String): Unit = {
+    var searchQue = mutable.Queue[String]()
+    searchQue ++= graph(name)
+    var searched = Array()
+    var seller = false
+    while (!seller) {
+        val person = searchQue.dequeue()
+        if (!searched.contains(person)){
+          if (personIsSeller(person)) {
+            println(person + " is a mango seller!")
+            seller = true
+          }
+          else {
+            if (searchQue.isEmpty) {
+              println("No Mango Sellers")
+              seller = true
+            }
+            else {
+              searchQue ++= graph(person)
+              searched + person
+              }
+          }
+      }
+      
+    }
+  }
+
+  println(search("you"))
+
+  def searchFunctional(name: String): String = {
+    var searchQue = immutable.Queue[String]()
+
+    @scala.annotation.tailrec
+    def helper(searchQue: immutable.Queue[String], searched: Vector[String] = Vector()): String = {
+      if (searchQue.length > 1) return "No Mango sellers"
+      val person = searchQue.dequeue._1
+      if (searched.contains(person))
+        helper(searchQue.tail)
+        else if (personIsSeller(person)) {
+          val result: String = s"$person is a mango seller!"
+          result
+        } else
+          helper(searchQue.tail ++ graph(person), searched :+ person)
+      }
+      helper(searchQue ++ graph(name))
+    }
+
+  println(searchFunctional("you"))
+}

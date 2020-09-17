@@ -1,10 +1,12 @@
+"use strict";
+
 /**
- * Sums values in array by function "reduce"
- * @param {Array} arr Array of numbers
- * @return {number} Sum of the numbers
+ * Sums values in the array by function "reduce"
+ * @param {Array} array Array of numbers
+ * @returns {number} Sum of the numbers
  */
-function sumReduce(arr) {
-  return arr.reduce(function(curr, prev) {
+function sumReduce(array) {
+  return array.reduce(function(curr, prev) {
     return curr + prev;
   });
 }
