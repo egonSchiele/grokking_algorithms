@@ -1,22 +1,21 @@
 # Finds the smallest value in an array
 def findSmallest(arr):
   # Stores the smallest value
+  # The function does the same thing as expression min(arr)
   smallest = arr[0]
-  # Stores the index of the smallest value
-  smallest_index = 0
-  for i in range(1, len(arr)):
-    if arr[i] < smallest:
-      smallest_index = i
-      smallest = arr[i]      
-  return smallest_index
+  for i in arr[1:]:
+    if smallest > i:
+      smallest = i
+  return smallest
 
 # Sort array
 def selectionSort(arr):
   newArr = []
-  for i in range(len(arr)):
+  while arr:
       # Finds the smallest element in the array and adds it to the new array
       smallest = findSmallest(arr)
-      newArr.append(arr.pop(smallest))
+      newArr.append(smallest)
+      arr.remove(smallest)
   return newArr
 
 print(selectionSort([5, 3, 6, 2, 10]))
