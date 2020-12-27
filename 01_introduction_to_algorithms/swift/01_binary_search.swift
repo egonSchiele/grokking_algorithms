@@ -8,7 +8,7 @@ func binarySearch <T: Comparable>(_ list: [T], item: T) -> Int? {
     // While you haven't narrowed it down to one element ...
     while low <= high {
         //... check the middle element
-        let mid = low + (high - low) / 2
+        let mid = (low + high) / 2
         let guess = list[mid]
         // Found the item.
         if guess == item {
