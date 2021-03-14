@@ -7,11 +7,11 @@ public class SelectionSort2 {
         for (int i = 0; i < target.length - 1; i++) {
             int left = target[i];
             for (int j = i + 1; j < target.length; j++) {
-                int rigth = target[j];
-                if (left > rigth) {
-                    target[i] = rigth;
+                int right = target[j];
+                if (left > right) {
+                    target[i] = right;
                     target[j] = left;
-                    left = rigth;
+                    left = right;
                 }
             }
         }
