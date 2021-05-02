@@ -1,3 +1,9 @@
+/**
+ * Searches recursively number from the list
+ * @param {Array} list Source array
+ * @param {number} item Search item
+ * @returns {(number|null)} Number if the value is found or NULL otherwise
+ */
 const binarySearch = (list, item) => {
   let low = 0;
   let high = list.length - 1;
@@ -8,8 +14,7 @@ const binarySearch = (list, item) => {
 
     if (guess === item) {
       return mid;
-    }
-    if (guess > item) {
+    } else if (guess > item) {
       high = mid - 1;
     } else {
       low = mid + 1;
