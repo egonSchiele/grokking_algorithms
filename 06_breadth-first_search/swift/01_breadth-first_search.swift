@@ -1,48 +1,68 @@
 import Foundation
 
-// As I can see Swift doesn't have Queue default implementation, so we have to use custom on, Degue structure from Swift Algorithm Club
-// https://github.com/raywenderlich/swift-algorithm-club/tree/master/Deque
 public struct Deque<T> {
-    private var array = [T]()
     
-    public var isEmpty: Bool {
-        return array.isEmpty
+    private class Node {
+        
+        let value: T
+        var next: Node?
+        var prev: Node?
+        
+        init(value: T) {
+            self.value = value
+        }
     }
     
-    public var count: Int {
-        return array.count
+    private var head: Node?
+    private var tail: Node?
+    private var count: UInt = 0
+    
+    public var isEmpty: Bool {
+        return count == 0
     }
     
     public mutating func enqueue(_ element: T) {
-        array.append(element)
+        let node = Node(value: element)
+        
+        if count == 0 {
+            head = node
+        } else {
+            tail?.next = node
+            node.prev = tail
+        }
+        
+        tail = node
+        count += 1
     }
     
     public mutating func enqueueFront(_ element: T) {
-        array.insert(element, at: 0)
+        let node = Node(value: element)
+        
+        if count == 0 {
+            tail = node
+        } else {
+            head?.prev = node
+            node.next = head
+        }
+        
+        head = node
+        count += 1
     }
     
     public mutating func dequeue() -> T? {
-        if isEmpty {
-            return nil
-        } else {
-            return array.removeFirst()
-        }
+        let value = head?.value
+        head = head?.next
+        head?.prev = nil
+        count -= 1
+        return value
     }
     
     public mutating func dequeueBack() -> T? {
-        if isEmpty {
-            return nil
-        } else {
-            return array.removeLast()
-        }
-    }
-    
-    public func peekFront() -> T? {
-        return array.first
-    }
-    
-    public func peekBack() -> T? {
-        return array.last
+        let value = tail?.value
+        tail = tail?.prev
+        tail?.next = nil
+        count -= 1
+        return value
     }
 }
 
