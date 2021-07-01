@@ -87,7 +87,7 @@ func search(name: String) -> Bool {
         searchQueue.enqueue(string)
     }
     // This array is how you keep track of which people you've searched before.
-    var searched = [String]()
+    var searched: Set<String> = []
     while !searchQueue.isEmpty {
         let person = searchQueue.dequeue()
         // Only search this person if you haven't already searched them
@@ -100,7 +100,7 @@ func search(name: String) -> Bool {
                     searchQueue.enqueue(string)
                 }
                 // Marks this person as searched
-                searched.append(person!)
+                searched.insert(person!)
             }
         }
     }
