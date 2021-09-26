@@ -6,7 +6,7 @@ function quicksort(array $array) {
         return $array;
     } else {
         // recursive case
-        $pivot = $array[0];
+        $pivot = $array[array_key_first($array)];
         var_dump($array);
 
         // sub-array of all the elements less than the pivot
