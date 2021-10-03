@@ -39,7 +39,7 @@ const findLowestCostNode = itCosts => {
   Object.keys(itCosts).forEach(node => {
     const cost = itCosts[node];
     // If it's the lowest cost so far and hasn't been processed yet...
-    if (cost < lowestCost && processed.indexOf(node) === -1) {
+    if (cost < lowestCost && !processed.includes(node)) {
       // ... set it as the new lowest-cost node.
       lowestCost = cost;
       lowestCostNode = node;
@@ -66,7 +66,7 @@ while (node !== null) {
   });
 
   // Mark the node as processed
-  processed = processed.concat(node);
+  processed.push(node);
 
   // Find the next node to process, and loop
   node = findLowestCostNode(costs);
