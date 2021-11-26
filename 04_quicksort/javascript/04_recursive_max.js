@@ -4,7 +4,7 @@
  * Calculate the largest number
  * This solution only works for arrays longer than one
  * @param {Array} array Array of numbers
- * @returns {number} The argest number
+ * @returns {number} The largest number
  */
 function max(array) {
   if (array.length === 2) return array[0] > array[1] ? array[0] : array[1];
