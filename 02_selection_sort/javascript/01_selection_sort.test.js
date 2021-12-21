@@ -14,6 +14,6 @@ describe("selectionSort", function () {
     });
 
     it("works with an empty array", function () {
-        expect(Array.isArray(selectionSort([]))).toBe(true);
+        expect(selectionSort([]).length).toBe(0);
     });
 });
