@@ -10,3 +10,7 @@ function countdown(i) {
 }
 
 countdown(5);
+
+module.exports = {
+  countdown
+};

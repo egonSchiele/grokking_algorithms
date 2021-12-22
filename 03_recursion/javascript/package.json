@@ -1,0 +1,14 @@
+{
+  "name": "javascript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "01_countdown.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Colin Sidberry",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^27.4.5"
+  }
+}
