@@ -11,3 +11,7 @@ function sumRecursive(array) {
 }
 
 console.log(sumRecursive([1, 2, 3, 4])); // 10
+
+module.exports = {
+  sumRecursive
+};

@@ -27,3 +27,7 @@ function alternativeSolutionMax(array, max = 0) {
 
 console.log(max([1, 5, 10, 25, 16, 1])); // 25
 console.log(alternativeSolutionMax([1, 5, 10, 25, 16, 1])); // 25
+
+module.exports = {
+  max
+};
