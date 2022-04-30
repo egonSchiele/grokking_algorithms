@@ -1,31 +1,60 @@
 import Foundation
 
-// Note: If you aren’t familiar with Comparable, please check out “Generics” chapter in Swift book
-func binarySearch <T: Comparable>(_ list: [T], item: T) -> Int? {
-    // low and high keep track of which part of the list you'll search in.
-    var low = 0
-    var high = list.count - 1
+let arrayOne = [16, 2, 512, 64, 1, 32, 8, 128, 256, 4]
+let arrayTwo = [10, 1, 3, 4, 5, 6, 7, 8, 9, 2]
+
+/// Note: If you aren’t familiar with Comparable, please check out “Generics” chapter in Swift book
+///
+/// Method:
+@discardableResult func findIndexByBinarySearch<T: Comparable>(in array: [T], item: T) -> Int? {
+    // For binary search you need to make the sort every time.
+    let sortedArray = array.sorted(by: <)
+    
+    // min and max keep track of which part of the list you'll search in.
+    var minIndex = sortedArray.startIndex
+    var maxIndex = sortedArray.count - 1
+    
     // While you haven't narrowed it down to one element ...
-    while low <= high {
+    while minIndex <= maxIndex {
         //... check the middle element
-        let mid = (low + high) / 2
-        let guess = list[mid]
+        let midIndex = (minIndex + maxIndex) / 2
+        
         // Found the item.
-        if guess == item {
-            return mid
-        }
-        // The guess was too high.
-        if guess > item {
-            high = mid - 1
+        if sortedArray[midIndex] == item {
+            return midIndex
+        } else if sortedArray[midIndex] > item {
+            maxIndex = midIndex - 1
         } else {
-            low = mid + 1
+            minIndex = midIndex + 1
         }
     }
-    
     return nil
 }
 
-let myList = [1, 3, 5, 7, 9]
-print(binarySearch(myList, item: 3) ?? "Not Found") // => 1
-print(binarySearch(myList, item: -1) ?? "Not Found") // => Not Found
+findIndexByBinarySearch(in: arrayOne, item: 2) // => index == 1
+findIndexByBinarySearch(in: arrayTwo, item: 10) // => index == 9
 
+
+/// Array's extension:
+extension Array where Element: Comparable {
+    func binarySearhedIndex(for item: Element) -> Int? {
+        let sortedArray = sorted(by: <)
+        var minIndex = startIndex
+        var maxIndex = count - 1
+        
+        while minIndex <= maxIndex {
+            let midIndex = (minIndex + maxIndex) / 2
+            
+            if sortedArray[midIndex] == item {
+                return midIndex
+            } else if sortedArray[midIndex] > item {
+                maxIndex = midIndex - 1
+            } else {
+                minIndex = midIndex + 1
+            }
+        }
+        return nil
+    }
+}
+
+arrayTwo.binarySearhedIndex(for: 2) // => index == 1
