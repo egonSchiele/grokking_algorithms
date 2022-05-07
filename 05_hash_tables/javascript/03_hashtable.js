@@ -146,6 +146,11 @@ const HashTable = function(obj) {
       return this.getValues();
     }
   });
+  
+  /**
+   * Freeze hashtable
+   */
+  Object.freeze(this);
 };
 
 const hashtable = new HashTable({ one: 1, two: 2, three: 3, cuatro: 4 });
