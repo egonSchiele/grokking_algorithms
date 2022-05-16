@@ -22,8 +22,9 @@ print(quicksort([1, 5, 10, 25, 16, 1])) // => [1, 1, 5, 10, 16, 25]
 
 
 // MARK: - Another implementation:
-let arrayOne = [1, 4, 2, 10, 0]
+let arrayOne = [1, 4, 2, 1, 10, 0]
 
+// Quick sort method:
 func quickSort<T: Numeric & Comparable>(_ array: [T]) -> [T] {
     /// Base case.
     guard array.count > 1 else { return array }
@@ -36,10 +37,32 @@ func quickSort<T: Numeric & Comparable>(_ array: [T]) -> [T] {
     array.enumerated().forEach {
         /// We skip the first index as we already have firstElement.
         guard $0.offset > 0 else { return }
-        firstElement > $0.element ? lessElements.append($0.element) : greaterElements.append($0.element)
+        firstElement >= $0.element ? lessElements.append($0.element) : greaterElements.append($0.element)
     }
     
     return quickSort(lessElements) + [firstElement] + quickSort(greaterElements)
 }
 
-quickSort(arrayOne) // Result => [0, 1, 2, 4, 10]
+quickSort(arrayOne) // Result => [0, 1, 1, 2, 4, 10]
+
+// Quick sort method by making use of binary search:
+func binaryQuickSort<T: Numeric & Comparable>(_ array: [T]) -> [T] {
+    /// Base case.
+    guard array.count > 1 else { return array }
+    /// We must sort array for binary search.
+    let sortedArray = array.sorted(by: <)
+    
+    /// Recursive case.
+    let midIndex = (sortedArray.count - 1) / 2
+    var lessElements: [T] = []
+    var greaterElements: [T] = []
+    
+    sortedArray.enumerated().forEach {
+        guard $0.offset != midIndex else { return }
+        $0.offset < midIndex ? lessElements.append($0.element) : greaterElements.append($0.element)
+    }
+    
+    return binaryQuickSort(lessElements) + [sortedArray[midIndex]] + quickSort(greaterElements)
+}
+
+binaryQuickSort(arrayOne) // Result => [0, 1, 1, 2, 4, 10]
