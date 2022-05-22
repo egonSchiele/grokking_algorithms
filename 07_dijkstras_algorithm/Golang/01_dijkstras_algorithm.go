@@ -5,69 +5,90 @@ import (
 	"math"
 )
 
+var graph map[string]map[string]float64
+var costs map[string]float64
+var parents map[string]string
+var processed []string
+
 func main() {
-	graph := make(map[string]map[string]int)
-	graph["start"] = map[string]int{}
+	// the graph
+	graph = make(map[string]map[string]float64)
+	graph["start"] = make(map[string]float64)
 	graph["start"]["a"] = 6
 	graph["start"]["b"] = 2
 
-	graph["a"] = map[string]int{}
-	graph["a"]["finish"] = 1
+	graph["a"] = make(map[string]float64)
+	graph["a"]["fin"] = 1
 
-	graph["b"] = map[string]int{}
+	graph["b"] = make(map[string]float64)
 	graph["b"]["a"] = 3
-	graph["b"]["finish"] = 5
+	graph["b"]["fin"] = 5
 
-	graph["finish"] = map[string]int{}
+	graph["fin"] = make(map[string]float64)
 
-	costs, parents := findShortestPath(graph, "start", "finish")
-	fmt.Println(costs, parents)
-}
+	// the costs table
+	costs = make(map[string]float64)
+	costs["a"] = 6
+	costs["b"] = 2
+	costs["fin"] = math.Inf(1)
 
-// Finds shortest path using dijkstra algorithm
-func findShortestPath(graph map[string]map[string]int, startNode string, finishNode string) (map[string]int, map[string]string)  {
-	costs := make(map[string]int)
-	costs[finishNode] = math.MaxInt32
+	// the parents table
+	parents = make(map[string]string)
+	parents["a"] = "start"
+	parents["b"] = "start"
+	parents["fin"] = ""
 
-	parents := make(map[string]string)
-	parents[finishNode] = ""
+	// Find the lowest-cost node that you haven't processed yet.
+	node := find_lowest_cost_node(costs)
+	// If you've processed all the nodes, this while loop is done.
 
-	processed := make(map[string]bool)
+	for node != "" {
+		cost := costs[node]
+		// Go through all the neighbors of this node.
+		neighbors := graph[node]
 
-	// Initialization of costs and parents
-	for node, cost := range graph[startNode] {
-		costs[node] = cost
-		parents[node] = startNode
-	}
-
-	lowestCostNode := findLowestCostNode(costs, processed)
-	for ; lowestCostNode != "" ; {
-		// Calculation costs for neighbours
-		for node, cost := range graph[lowestCostNode] {
-			newCost := costs[lowestCostNode] + cost
-			if newCost < costs[node] {
-				// Set new cost for this node
-				costs[node] = newCost
-				parents[node] = lowestCostNode
+		for node, _ := range neighbors {
+			new_cost := cost + neighbors[node]
+			// If it's cheaper to get to this neighbor by going through this node...
+			if costs[node] > new_cost {
+				// ... update the cost for this node.
+				costs[node] = new_cost
+				// This node becomes the new parent for this neighbor.
+				parents[node] = node
 			}
 		}
-
-		processed[lowestCostNode] = true
-		lowestCostNode = findLowestCostNode(costs, processed)
+		// Mark the node as processed.
+		processed = append(processed, node)
+		// Find the next node to process, and loop.
+		node = find_lowest_cost_node(costs)
 	}
 
-	return costs, parents
+	fmt.Println(costs)
+
 }
 
-func findLowestCostNode(costs map[string]int, processed map[string]bool) string {
-	lowestCost := math.MaxInt32
-	lowestCostNode := ""
-	for node, cost := range costs {
-		if _, inProcessed := processed[node]; cost < lowestCost && !inProcessed {
-			lowestCost = cost
-			lowestCostNode = node
+func find_lowest_cost_node(costs map[string]float64) string {
+	lowest_cost := math.Inf(1)
+	lowest_cost_node := ""
+
+	for node, _ := range costs {
+		// fmt.Println("Node:", node, "Value:", value)
+		cost := costs[node]
+		// If it's the lowest cost so far and hasn't been processed yet...
+		if cost < lowest_cost && !contains(processed, node) {
+			// ... set it as the new lowest-cost node.
+			lowest_cost = cost
+			lowest_cost_node = node
 		}
 	}
+	return lowest_cost_node
+}
 
-	return lowestCostNode
+func contains(s []string, e string) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
 }
