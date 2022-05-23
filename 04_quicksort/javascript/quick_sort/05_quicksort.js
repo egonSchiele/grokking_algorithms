@@ -21,4 +21,4 @@ function quicksort(array) {
   return quicksort(less).concat([pivot], quicksort(greater));
 }
 
-console.log(quicksort([10, 5, 2, 3])); // [2, 3, 5, 10]
+console.log(quicksort([10, 5, 2, 3])); 
