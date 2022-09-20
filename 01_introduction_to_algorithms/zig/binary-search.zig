@@ -3,33 +3,34 @@ const print = std.debug.print;
 const expect = std.testing.expect;
 
 pub fn main() void {
-    comptime const my_list = [_]i8{ 1, 3, 5, 7, 9 };
+    const my_list = &[_]i8{ 1, 3, 5, 7, 9 };
 
-    print("{}\n", .{binarySearch(my_list[0..], 3)});
-    print("{}\n", .{binarySearch(my_list[0..], -1)});
+    print("{?}\n", .{binarySearch(i8, my_list, 3)});
+    print("{?}\n", .{binarySearch(i8, my_list, -1)});
 }
 
-fn binarySearch(comptime list: []const i8, comptime item: i8) ?usize {
+fn binarySearch(comptime T: type, list: []const T, item: T) ?usize {
     var low: i32 = 0;
-    var high: i32 = list.len - 1;
+    var high: i32 = @intCast(i32, list.len) - 1;
 
     return while (low <= high) {
-        var mid = @intCast(usize, @divTrunc((low + high), 2));
-        var guess = list[mid];
-        if (guess == item) return mid;
+        var mid = @divTrunc((low + high), 2);
+        var m = @intCast(usize, mid);
+        var guess = list[m];
+        if (guess == item) break m;
         if (guess > item) {
-            high = @intCast(i32, mid) - 1;
-        } else low = @intCast(i32, mid) + 1;
+            high = mid - 1;
+        } else low = mid + 1;
     } else null;
 }
 
 test "binarySearch" {
-    comptime const my_list = [_]i8{ 1, 3, 5, 7, 9 };
+    const my_list = &[_]i8{ 1, 3, 5, 7, 9 };
 
-    var i = binarySearch(my_list[0..], 3);
-    expect(i != null);
-    expect(i.? == 1);
+    var i = binarySearch(i8, my_list, 3);
+    try expect(i != null);
+    try expect(i.? == 1);
 
-    i = binarySearch(my_list[0..], -1);
-    expect(i == null);
+    i = binarySearch(i8, my_list, -1);
+    try expect(i == null);
 }
