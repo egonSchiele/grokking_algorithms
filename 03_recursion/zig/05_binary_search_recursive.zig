@@ -2,19 +2,19 @@ const print = @import("std").debug.print;
 const expect = @import("std").testing.expect;
 
 pub fn main() void {
-    print("{}\n", .{binarySearch(&[_]i32{ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 2)});
+    print("{}\n", .{binarySearch(i32, &[_]i32{ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, 2)});
 }
 
-fn binarySearch(arr: []const i32, target: i32) bool {
+fn binarySearch(comptime T: type, arr: []const T, target: T) bool {
     switch (arr.len) {
         0 => return false,
         1 => return arr[0] == target,
         else => {
             const mid = arr.len / 2;
             if (arr[mid] > target) {
-                return binarySearch(arr[0..mid], target);
+                return binarySearch(T, arr[0..mid], target);
             } else {
-                return binarySearch(arr[mid..], target);
+                return binarySearch(T, arr[mid..], target);
             }
         },
     }
@@ -54,6 +54,6 @@ test "binary search recursive" {
     };
 
     for (tests) |t| {
-        expect(binarySearch(t.arr, t.target) == t.exp);
+        try expect(binarySearch(@TypeOf(t.target), t.arr, t.target) == t.exp);
     }
 }

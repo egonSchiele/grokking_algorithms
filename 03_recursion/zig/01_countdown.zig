@@ -1,13 +1,13 @@
 const print = @import("std").debug.print;
 
-fn countdown(i: i32) void {
+fn countdown(comptime T: type, i: T) void {
     print("{} ", .{i});
     if (i <= 0) {
         print("\n", .{});
         return;
-    } else countdown(i - 1);
+    } else countdown(T, i - 1);
 }
 
 pub fn main() void {
-    countdown(5);
+    countdown(u32, 5);
 }
