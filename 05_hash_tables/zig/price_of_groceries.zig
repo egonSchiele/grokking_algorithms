@@ -4,7 +4,7 @@ const heap = std.heap;
 pub fn main() !void {
     var gpa = heap.GeneralPurposeAllocator(.{}){};
 
-    var map = std.StringHashMap(f32).init(&gpa.allocator);
+    var map = std.StringHashMap(f32).init(gpa.allocator());
     defer map.deinit();
 
     try map.put("apple", 0.67);
@@ -14,6 +14,6 @@ pub fn main() !void {
     var iterator = map.iterator();
 
     while (iterator.next()) |entry| {
-        std.debug.print("{s}: {d:.2}\n", .{ entry.key, entry.value });
+        std.debug.print("{s}: {d:.2}\n", .{ entry.key_ptr.*, entry.value_ptr.* });
     }
 }
