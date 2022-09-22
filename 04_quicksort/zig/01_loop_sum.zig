@@ -2,18 +2,19 @@ const print = @import("std").debug.print;
 const expect = @import("std").testing.expect;
 
 pub fn main() void {
-    var list = [_]i32{ 1, 2, 3, 4 };
-    print("{}\n", .{count(&list)});
+    var arr = [_]i32{ 1, 2, 3, 4 };
+    print("{}\n", .{sum(i32, &arr)});
 }
 
-fn count(list: []i32) i32 {
-    if (list.len == 0) {
-        return 0;
+fn sum(comptime T: type, arr: []T) T {
+    var total: T = 0;
+    for (arr) |x| {
+        total += x;
     }
-    return 1 + count(list[1..]);
+    return total;
 }
 
-test "count" {
+test "sum" {
     var arr0 = [_]i32{ 1, 2, 3, 4 };
     var arr1 = [_]i32{};
     var tests = [_]struct {
@@ -22,7 +23,7 @@ test "count" {
     }{
         .{
             .arr = &arr0,
-            .exp = 4,
+            .exp = 10,
         },
         .{
             .arr = &arr1,
@@ -31,7 +32,7 @@ test "count" {
     };
 
     for (tests) |t| {
-        var n = count(t.arr);
-        expect(n == t.exp);
+        var n = sum(@TypeOf(t.exp), t.arr);
+        try expect(n == t.exp);
     }
 }

@@ -2,15 +2,15 @@ const print = @import("std").debug.print;
 const expect = @import("std").testing.expect;
 
 pub fn main() void {
-    print("{}\n", .{max(&[_]i32{ 1, 2, 3, 4 })});
+    print("{}\n", .{findMax(i32, &[_]i32{ 1, 2, 3, 4 })});
 }
 
-fn max(arr: []const i32) i32 {
+fn findMax(comptime T: type, arr: []const T) T {
     switch (arr.len) {
         0 => return 0,
         1 => return arr[0],
         else => {
-            const x = max(arr[1..]);
+            const x = findMax(T, arr[1..]);
             if (arr[0] > x) {
                 return arr[0];
             } else return x;
@@ -18,7 +18,7 @@ fn max(arr: []const i32) i32 {
     }
 }
 
-test "max" {
+test "find max" {
     const tests = [_]struct {
         arr: []const i32,
         exp: i32,
@@ -26,6 +26,10 @@ test "max" {
         .{
             .arr = &[_]i32{ 1, 2, 3, 4 },
             .exp = 4,
+        },
+        .{
+            .arr = &[_]i32{ 8, 42, 3, 1 },
+            .exp = 42,
         },
         .{
             .arr = &[_]i32{42},
@@ -38,6 +42,6 @@ test "max" {
     };
 
     for (tests) |t| {
-        expect(max(t.arr) == t.exp);
+        try expect(findMax(@TypeOf(t.exp), t.arr) == t.exp);
     }
 }

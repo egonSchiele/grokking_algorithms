@@ -2,16 +2,15 @@ const print = @import("std").debug.print;
 const expect = @import("std").testing.expect;
 
 pub fn main() void {
-    var arr = [_]i32{ 1, 2, 3, 4 };
-    print("{}\n", .{sum(&arr)});
+    var list = [_]i32{ 1, 2, 3, 4 };
+    print("{}\n", .{sum(i32, &list)});
 }
 
-fn sum(arr: []i32) i32 {
-    var total: i32 = 0;
-    for (arr) |x| {
-        total += x;
+fn sum(comptime T: type, list: []T) T {
+    if (list.len == 0) {
+        return 0;
     }
-    return total;
+    return list[0] + sum(T, list[1..]);
 }
 
 test "sum" {
@@ -32,7 +31,7 @@ test "sum" {
     };
 
     for (tests) |t| {
-        var n = sum(t.arr);
-        expect(n == t.exp);
+        var n = sum(@TypeOf(t.exp), t.arr);
+        try expect(n == t.exp);
     }
 }
