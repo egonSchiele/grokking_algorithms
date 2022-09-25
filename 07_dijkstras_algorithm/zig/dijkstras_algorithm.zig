@@ -4,83 +4,103 @@ const heap = std.heap;
 
 pub fn main() !void {
     var gpa = heap.GeneralPurposeAllocator(.{}){};
-    var arena = heap.ArenaAllocator.init(&gpa.allocator);
+    var arena = heap.ArenaAllocator.init(gpa.allocator());
     defer arena.deinit();
 
-    var graph = std.StringHashMap(*std.StringHashMap(f32)).init(&arena.allocator);
+    var graph = std.StringHashMap(*std.StringHashMap(f32)).init(arena.allocator());
 
-    var start = std.StringHashMap(f32).init(&arena.allocator);
+    var start = std.StringHashMap(f32).init(arena.allocator());
     try start.put("a", 6);
-    try start.put("b", 6);
+    try start.put("b", 2);
     try graph.put("start", &start);
 
-    var a = std.StringHashMap(f32).init(&arena.allocator);
-    try a.put("fin", 1);
+    var a = std.StringHashMap(f32).init(arena.allocator());
+    try a.put("finish", 1);
     try graph.put("a", &a);
 
-    var b = std.StringHashMap(f32).init(&arena.allocator);
+    var b = std.StringHashMap(f32).init(arena.allocator());
     try b.put("a", 3);
-    try b.put("fin", 5);
+    try b.put("finish", 5);
     try graph.put("b", &b);
 
-    var fin = std.StringHashMap(f32).init(&arena.allocator);
-    try graph.put("fin", &fin);
+    var fin = std.StringHashMap(f32).init(arena.allocator());
+    try graph.put("finish", &fin);
 
-    var costs = std.StringHashMap(f32).init(&arena.allocator);
-    try costs.put("a", 6);
-    try costs.put("b", 2);
-    try costs.put("fin", std.math.inf(f32));
+    var result = try dijkstra(arena.allocator(), &graph, "start", "finish");
 
-    var parents = std.StringHashMap(?[]const u8).init(&arena.allocator);
-    try parents.put("a", "start");
-    try parents.put("b", "start");
-    try parents.put("fin", null);
-
-    try dijkstra(&gpa.allocator, &graph, &costs, &parents);
+    std.debug.print("Cost from the start to each node:\n", .{});
+    var costs_it = result.costs.iterator();
+    while (costs_it.next()) |cost| {
+        std.debug.print("{s}: {d} ", .{ cost.key_ptr.*, cost.value_ptr.* });
+    }
+    std.debug.print("\n", .{});
+    std.debug.print("\n", .{});
+    std.debug.print("Path from start to finish:\n", .{});
+    var path_it = result.path.iterator();
+    while (path_it.next()) |parent| {
+        std.debug.print("{s} = {?s}\n", .{ parent.key_ptr.*, parent.value_ptr.* });
+    }
 }
 
-fn dijkstra(
-    allocator: *mem.Allocator,
-    graph: *std.StringHashMap(*std.StringHashMap(f32)),
-    costs: *std.StringHashMap(f32),
-    parents: *std.StringHashMap(?[]const u8),
-) !void {
-    var processed = std.BufSet.init(allocator);
-    defer processed.deinit();
+const dijkstraResult = struct {
+    costs: std.StringHashMap(f32),
+    path: std.StringHashMap(?[]const u8),
+};
 
-    var n = findCheapestNode(costs, &processed);
-    while (n) |node| : (n = findCheapestNode(costs, &processed)) {
+fn dijkstra(
+    allocator: mem.Allocator,
+    graph: *std.StringHashMap(*std.StringHashMap(f32)),
+    start: []const u8,
+    finish: []const u8,
+) !dijkstraResult {
+    var costs = std.StringHashMap(f32).init(allocator);
+    var parents = std.StringHashMap(?[]const u8).init(allocator);
+    try costs.put(finish, std.math.inf_f32);
+    try parents.put(finish, null);
+
+    var start_graph = graph.get(start);
+    if (start_graph) |sg| {
+        var it = sg.iterator();
+        while (it.next()) |elem| {
+            try costs.put(elem.key_ptr.*, elem.value_ptr.*);
+            try parents.put(elem.key_ptr.*, start);
+        }
+    }
+
+    var processed = std.BufSet.init(allocator);
+
+    var n = findCheapestNode(&costs, &processed);
+    while (n) |node| : (n = findCheapestNode(&costs, &processed)) {
         var cost = costs.get(node).?;
         var neighbors = graph.get(node);
         if (neighbors) |nbors| {
             var it = nbors.iterator();
-            while (it.next()) |element| {
-                var new_cost = cost + element.value;
-                if (costs.get(element.key).? > new_cost) {
-                    try costs.put(element.key, new_cost);
-                    try parents.put(element.key, node);
+            while (it.next()) |neighbor| {
+                var new_cost = cost + neighbor.value_ptr.*;
+                if (costs.get(neighbor.key_ptr.*).? > new_cost) {
+                    try costs.put(neighbor.key_ptr.*, new_cost);
+                    try parents.put(neighbor.key_ptr.*, node);
                 }
             }
-            try processed.put(node);
         }
+        try processed.insert(node);
     }
 
-    std.debug.print("Cost from the start to each node:\n", .{});
-    var i = costs.iterator();
-    while (i.next()) |cost| {
-        std.debug.print("{s} = {d}\n", .{ cost.key, cost.value });
-    }
+    return dijkstraResult{
+        .costs = costs,
+        .path = parents,
+    };
 }
 
 fn findCheapestNode(costs: *std.StringHashMap(f32), processed: *std.BufSet) ?[]const u8 {
-    var lowest_cost = std.math.inf(f32);
+    var lowest_cost = std.math.inf_f32;
     var lowest_cost_node: ?[]const u8 = null;
 
     var it = costs.iterator();
     while (it.next()) |node| {
-        if (node.value < lowest_cost and !processed.exists(node.key)) {
-            lowest_cost = node.value;
-            lowest_cost_node = node.key;
+        if (node.value_ptr.* < lowest_cost and !processed.contains(node.key_ptr.*)) {
+            lowest_cost = node.value_ptr.*;
+            lowest_cost_node = node.key_ptr.*;
         }
     }
 
