@@ -6,8 +6,8 @@
  * @returns {number} Sum of the numbers
  */
 function sumReduce(array) {
-  return array.reduce(function(curr, prev) {
-    return curr + prev;
+  return array.reduce(function(prev, cur) {
+    return prev + cur;
   });
 }
 
