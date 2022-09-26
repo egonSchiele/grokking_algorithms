@@ -1,4 +1,7 @@
 function sum(arr: number[]): number {
+    if (!arr.length) {
+        return 0;
+    }
     if (arr.length === 1) {
         return arr[0];
     }
