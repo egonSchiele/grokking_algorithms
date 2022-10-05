@@ -42,11 +42,23 @@ pub fn main() !void {
     }
 }
 
+/// this struct is needed because coercing an anonymous struct literal to an
+/// error union is not supported by zig yet.  Once this is fixed (with the
+/// self-hosted compiler, see https://github.com/ziglang/zig/issues/11443), the
+/// dijkstra function could just return:
+/// ```zig
+///    return {
+///        .costs = costs,
+///        .path = parents,
+///    };
+/// ```
 const dijkstraResult = struct {
     costs: std.StringHashMap(f32),
     path: std.StringHashMap(?[]const u8),
 };
 
+/// applies the dijkstra algorithm on the provided graph using
+/// the provided start anf finish nodes.
 fn dijkstra(
     allocator: mem.Allocator,
     graph: *std.StringHashMap(*std.StringHashMap(f32)),
@@ -58,6 +70,7 @@ fn dijkstra(
     try costs.put(finish, std.math.inf_f32);
     try parents.put(finish, null);
 
+    // initialize costs and parents maps for the nodes having start as parent
     var start_graph = graph.get(start);
     if (start_graph) |sg| {
         var it = sg.iterator();
@@ -78,6 +91,7 @@ fn dijkstra(
             while (it.next()) |neighbor| {
                 var new_cost = cost + neighbor.value_ptr.*;
                 if (costs.get(neighbor.key_ptr.*).? > new_cost) {
+                    // update maps if we found a cheaper path
                     try costs.put(neighbor.key_ptr.*, new_cost);
                     try parents.put(neighbor.key_ptr.*, node);
                 }
@@ -92,6 +106,7 @@ fn dijkstra(
     };
 }
 
+/// finds the cheapest node among the not yet processed ones.
 fn findCheapestNode(costs: *std.StringHashMap(f32), processed: *std.BufSet) ?[]const u8 {
     var lowest_cost = std.math.inf_f32;
     var lowest_cost_node: ?[]const u8 = null;
