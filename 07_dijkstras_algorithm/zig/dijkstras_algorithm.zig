@@ -121,3 +121,41 @@ fn findCheapestNode(costs: *std.StringHashMap(f32), processed: *std.BufSet) ?[]c
 
     return lowest_cost_node;
 }
+
+test "dijkstra" {
+    var gpa = heap.GeneralPurposeAllocator(.{}){};
+    var arena = heap.ArenaAllocator.init(gpa.allocator());
+    defer {
+        arena.deinit();
+        const leaked = gpa.deinit();
+        if (leaked) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
+    }
+
+    var graph = std.StringHashMap(*std.StringHashMap(f32)).init(arena.allocator());
+
+    var start = std.StringHashMap(f32).init(arena.allocator());
+    try start.put("a", 6);
+    try start.put("b", 2);
+    try graph.put("start", &start);
+
+    var a = std.StringHashMap(f32).init(arena.allocator());
+    try a.put("finish", 1);
+    try graph.put("a", &a);
+
+    var b = std.StringHashMap(f32).init(arena.allocator());
+    try b.put("a", 3);
+    try b.put("finish", 5);
+    try graph.put("b", &b);
+
+    var fin = std.StringHashMap(f32).init(arena.allocator());
+    try graph.put("finish", &fin);
+
+    var result = try dijkstra(arena.allocator(), &graph, "start", "finish");
+
+    try std.testing.expectEqual(result.costs.get("a").?, 5);
+    try std.testing.expectEqual(result.costs.get("b").?, 2);
+    try std.testing.expectEqual(result.costs.get("finish").?, 6);
+    try std.testing.expectEqual(result.path.get("b").?, "start");
+    try std.testing.expectEqual(result.path.get("a").?, "b");
+    try std.testing.expectEqual(result.path.get("finish").?, "a");
+}
