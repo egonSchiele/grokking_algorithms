@@ -8,7 +8,9 @@ def binary_search(arr, target):
     low = 0         
     high = len(arr) - 1    
     mid = (low + high) // 2
-
+    
+    if arr[mid] == target:
+        return arr[mid]
     if arr[mid] > target:
         return binary_search(arr[:mid], target)
     else:
