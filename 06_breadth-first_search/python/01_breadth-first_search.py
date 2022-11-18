@@ -16,8 +16,8 @@ graph["jonny"] = []
 def search(name):
     search_queue = deque()
     search_queue += graph[name]
-    # This array is how you keep track of which people you've searched before.
-    searched = []
+    # This is how you keep track of which people you've searched before.
+    searched = set()
     while search_queue:
         person = search_queue.popleft()
         # Only search this person if you haven't already searched them.
@@ -28,7 +28,7 @@ def search(name):
             else:
                 search_queue += graph[person]
                 # Marks this person as searched
-                searched.append(person)
+                searched.add(person)
     return False
 
 search("you")

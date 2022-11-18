@@ -1,18 +1,19 @@
-private val voted = hashMapOf<String, Boolean>()
+val voted:HashMap<String,Boolean> = HashMap<String, Boolean>() 
 
-private fun checkVoter(name: String) {
-    println(
-        if (voted.containsKey(name)) {
-            "kick them out!"
-        } else {
-            voted[name] = true
-            "let them vote!"
-        }
-    )
+fun checkVoter(name: String) {
+ 
+    if(!voted.containsKey(name)){
+        voted.put(name, true)
+        println("let them vote!")
+    } else {
+        println("kick them out!")
+    }
+    
 }
 
 fun main(args: Array<String>) {
-    checkVoter("tom")   // let them vote!
-    checkVoter("mike")  // let them vote!
-    checkVoter("mike")  // kick them out!
+    
+    checkVoter("tom")
+    checkVoter("mike")
+    checkVoter("mike")
 }

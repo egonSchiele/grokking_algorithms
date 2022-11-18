@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 // the graph
 const graph = {};
@@ -17,44 +17,48 @@ graph["fin"] = {};
 
 // The costs table
 const costs = {};
-costs['a'] = 6;
-costs['b'] = 2;
-costs['fin'] = Infinity;
+costs["a"] = 6;
+costs["b"] = 2;
+costs["fin"] = Infinity;
 
 // the parents table
 const parents = {};
-parents['a'] = 'start';
-parents['b'] = 'start';
-parents['fin'] = null;
+parents["a"] = "start";
+parents["b"] = "start";
+parents["fin"] = null;
 
 let processed = [];
 
-
-function find_lowest_cost_node(costs) {
-  let lowest_cost = Infinity;
-  let lowest_cost_node = null;
+/**
+ * Find the lowest node
+ * @param {Object} itCosts Hash table
+ * @returns {(string|null)} The lowest node
+ */
+function findLowestCostNode(costs) {
+  let lowestCost = Infinity;
+  let lowestCostNode = null;
 
   // Go through each node
   for (let node in costs) {
-    let cost = costs[node];
+    const cost = costs[node];
     // If it's the lowest cost so far and hasn't been processed yet...
-    if (cost < lowest_cost && (processed.indexOf(node) === -1)) {
+    if (cost < lowestCost && processed.indexOf(node) === -1) {
       // ... set it as the new lowest-cost node.
-      lowest_cost = cost;
-      lowest_cost_node = node;
+      lowestCost = cost;
+      lowestCostNode = node;
     }
   }
-  return lowest_cost_node;
+  return lowestCostNode;
 }
 
-let node = find_lowest_cost_node(costs);
+let node = findLowestCostNode(costs);
 
 while (node !== null) {
-  let cost = costs[node];
+  const cost = costs[node];
   // Go through all the neighbors of this node
-  let neighbors = graph[node];
+  const neighbors = graph[node];
   Object.keys(neighbors).forEach(function(n) {
-    let new_cost = cost + neighbors[n];
+    const new_cost = cost + neighbors[n];
     // If it's cheaper to get to this neighbor by going through this node
     if (costs[n] > new_cost) {
       // ... update the cost for this node
@@ -66,9 +70,9 @@ while (node !== null) {
 
   // Mark the node as processed
   processed = processed.concat(node);
-  
+
   // Find the next node to process, and loop
-  node = find_lowest_cost_node(costs);
+  node = findLowestCostNode(costs);
 }
 
 console.log("Cost from the start to each node:");
