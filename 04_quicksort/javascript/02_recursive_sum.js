@@ -1,7 +1,9 @@
+"use strict";
+
 /**
- * Sums values in array recursively
- * @param {Array} arr Array of numbers
- * @return {number} Sum of the numbers
+ * Sums values in the array by recursive
+ * @param {Array} array Array of numbers
+ * @returns {number} Sum of the numbers
  */
 function sumRecursive(arr) {
   if (arr.length == 0) return 0;

@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-func checkBin(list []int, i int) bool {
+func checkBin(list []int, i int) int {
 	low := 0
 	high := len(list) - 1
 	for low <= high {
 		mid := (low + high) / 2
 		if list[mid] == i {
-			return true
+			return mid
 		}
 		if list[mid] < i {
 			low = mid + 1
@@ -16,10 +16,10 @@ func checkBin(list []int, i int) bool {
 			high = mid - 1
 		}
 	}
-	return false
+	return -1
 }
 
 func main() {
-	fmt.Println(checkBin([]int{1, 2, 3, 4, 5}, 1))  // true
-	fmt.Println(checkBin([]int{1, 2, 3, 4, 5}, -1)) //false
+	fmt.Println(checkBin([]int{1, 2, 3, 4, 5}, 1))  // 0
+	fmt.Println(checkBin([]int{1, 2, 3, 4, 5}, -1)) // -1
 }

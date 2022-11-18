@@ -1,0 +1,7 @@
+[package]
+name = "selection-sort"
+version = "0.1.0"
+authors = ["Alexander Launi <alex.launi@gmail.com>"]
+edition = "2018"
+
+[dependencies]

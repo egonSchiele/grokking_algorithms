@@ -1,9 +1,10 @@
-'use strict';
-// Selection Sort - O(n^2)
-// Parameter:
-//  1. random array
+"use strict";
 
-// 1. Finds the smallest value in an array
+/**
+ * Finds the index of the element with the smallest value in the array
+ * @param {Array} array Source array
+ * @returns {number} Index of the element with the smallest value
+ */
 function findSmallestIndex(array) {
   var smallestElement = array[0]; // Stores the smallest value
   var smallestIndex = 0; // Stores the index of the smallest value
@@ -18,19 +19,28 @@ function findSmallestIndex(array) {
   return smallestIndex;
 }
 
-// 2. Sort the array
+/**
+ * Sort array by increment
+ * @param {Array} array Source array
+ * @returns {Array} New sorted array
+ */
 function selectionSort(array) {
   var sortedArray = [];
+  var copyArray = array.slice();
   var length = array.length;
 
   for (var i = 0; i < length; i++) {
-    // Finds the smallest element in the array 
-    var smallestIndex = findSmallestIndex(array);
+    // Finds the smallest element in the array
+    var smallestIndex = findSmallestIndex(copyArray);
     // Adds the smallest element to new array
-    sortedArray.push(array.splice(smallestIndex, 1)[0]);
+    sortedArray.push(copyArray.splice(smallestIndex, 1)[0]);
   }
 
   return sortedArray;
 }
 
-console.log(selectionSort([5, 3, 6, 2, 10])); // [2, 3, 5, 6, 10]
+const sourceArray = [5, 3, 6, 2, 10];
+const sourtedArray = selectionSort([5, 3, 6, 2, 10]);
+
+console.log("Source array - ", sourceArray); // [5, 3, 6, 2, 10]
+console.log("New sorted array - ", sourtedArray); // [2, 3, 5, 6, 10]
