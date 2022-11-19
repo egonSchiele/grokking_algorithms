@@ -4,12 +4,6 @@ namespace ConsoleApplication
 {
     public class Program
     {
-        public static void Main(string[] args)
-        {
-            var result = LevenshteinDistance("gibraltar", "labrador");
-            Console.WriteLine(result); // 5
-        }
-
         public static int LevenshteinDistance(string source, string target)
         {
             var matrix = CreateMatrix(source, target);
@@ -19,7 +13,8 @@ namespace ConsoleApplication
                 for (int j = 1; j <= target.Length; j++)
                 {
                     matrix[i, j] = Math.Min(matrix[i, j - 1] + 1, Math.Min(
-                        matrix[i - 1, j] + 1, matrix[i - 1, j - 1] + (source[i - 1] != target[j - 1] ? 1 : 0)));
+                        matrix[i - 1, j] + 1,
+                        matrix[i - 1, j - 1] + (source[i - 1] != target[j - 1] ? 1 : 0)));
                 }
             }
 
@@ -32,9 +27,7 @@ namespace ConsoleApplication
 
             if (source.Length < target.Length)
             {
-                var tempSrc = source;
-                source = target;
-                target = tempSrc;
+                (source, target) = (target, source);
             }
 
             for (int i = 0; i <= source.Length; i++)
