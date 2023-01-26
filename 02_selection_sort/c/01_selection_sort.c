@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #define SIZE 5
 
 // Finds the smallest value in an array
