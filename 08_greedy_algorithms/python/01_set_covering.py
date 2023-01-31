@@ -8,7 +8,6 @@ stations["kthree"] = set(["or", "nv", "ca"])
 stations["kfour"] = set(["nv", "ut"])
 stations["kfive"] = set(["ca", "az"])
 
-final_stations = set()
 
 def my_set_covering(states_needed, stations):
     final_stations = set()
