@@ -1,5 +1,3 @@
-(display "01_binarysearch")
-
 (define (binary-search my-list item)
   (iter my-list item 0 (- (length my-list) 1)))
 
@@ -12,11 +10,5 @@
               (else (iter my-list item (+ mid 1) high))))))
 
 
-(newline)
-(newline)
-(display (binary-search (list 1 3 5 7 9) 3))
-(newline)
-(newline)
-(display (binary-search (list 1 3 5 7 9) -1))
-(newline)
-(newline)
+(display (binary-search (list 1 3 5 7 9) 3)) ;; 1
+(display (binary-search (list 1 3 5 7 9) -1)) ;; nill
