@@ -8,12 +8,10 @@
 (define (iter-find my-list smallest-i smallest i last-index)
   (if (> i last-index) 
       smallest-i
-      (let ((my-list-i (vector-ref my-list i)))
+      (let ((my-list-i (list-ref my-list i)))
         (if (< my-list-i smallest)
             (iter-find my-list i my-list-i (+ i 1) last-index)
             (iter-find my-list smallest-i smallest (+ i 1) last-index)))))
-
-
 
 
 (define (selection-sort my-list)
@@ -28,11 +26,12 @@
       result
       (let* ((smallest-i (find-smallest my-list))
             (smallest (list-ref my-list smallest-i))
-            (filtered-list (filter (lambda (n) (not (= n smallest))) my-list)))
-        (vector-set! result i smallest)
-        (iter-sort filtered-list (+ i 1) last-i result))))
+            (filtered-list (filter (lambda (n) (not (= n smallest)))
+                                   my-list))
+            (new-result (append result (list smallest))))
+        (iter-sort filtered-list (+ i 1) last-i new-result))))
 
 
-(display (selection-sort (vector 1 3 5 7 9))) ;; #(1 3 5 7 9)
-(display (selection-sort (vector 9 7 5 3 1))) ;; #(1 3 5 7 9)
-(display (selection-sort (vector 9 5 7 1 3))) ;; #(1 3 5 7 9)
+(display (selection-sort (list 1 3 5 7 9))) ;; #(1 3 5 7 9)
+(display (selection-sort (list 9 7 5 3 1))) ;; #(1 3 5 7 9)
+(display (selection-sort (list 9 5 7 1 3))) ;; #(1 3 5 7 9)
