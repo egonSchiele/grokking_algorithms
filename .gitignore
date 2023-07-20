@@ -28,7 +28,6 @@ highlights/atom-language-perl6/
 .DS_store
 highlights/package-lock.json
 zig-cache
-assignments
 
 # IDE specific
 .scala_dependencies
