@@ -7,7 +7,7 @@ public class Sum {
             return 0;
         } else {
             int num = num_list.get(index);
-            return num + sum(num_list, index);
+            return num + sum(num_list, index + 1);
         }
 
     }
