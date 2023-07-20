@@ -37,5 +37,24 @@ namespace ConsoleApplication
             }
             return smallestIndex;
         }
+        
+        public static int[] SelectionSort(int[] unorderedArray)
+        {
+            for (var i = 0; i < unorderedArray.Length; i++)
+            {
+                var smallestIndex = i;
+
+                for (var remainingIndex = i + 1; remainingIndex < unorderedArray.Length; remainingIndex++)
+                {
+                    if (unorderedArray[remainingIndex] < unorderedArray[smallestIndex])
+                    {
+                        smallestIndex = remainingIndex;
+                    }
+                }
+                (unorderedArray[i], unorderedArray[smallestIndex]) = (unorderedArray[smallestIndex], unorderedArray[i]);
+            }
+
+            return unorderedArray;
+        }
     }
 }
