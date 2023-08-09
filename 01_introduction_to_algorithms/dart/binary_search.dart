@@ -22,4 +22,5 @@ int? binarySearch(List<int> list, int item) {
       low = mid + 1;
     }
   }
+  return null;
 }
