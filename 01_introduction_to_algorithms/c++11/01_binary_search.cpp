@@ -5,7 +5,7 @@ using std::cout;
 using std::endl;
 
 template <typename T>
-int binary_search(const std::vector<T>& list, const int& item) {
+int binary_search(const std::vector<T>& list, const T& item) {
     int low = 0;
     int high = list.size() - 1;
 
