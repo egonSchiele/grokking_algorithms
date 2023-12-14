@@ -1,20 +1,17 @@
+'use strict';
 /**
  * Finds smallest element of an aray
  * @param {Array} arr array for searching
  * @return {number} index of the smallest element in array
  */
-const findSmallest = ( arr ) => {
-    let smallest = arr[0];
-    let smallestIndex = 0;
-    let arrLen = arr.length;
-
-    for ( let i = 0; i < arrLen; i++ ) {
-        if ( arr[i] < smallest ) {
-            smallest = arr[i];
-            smallestIndex = i;
-        }
-    }
-    return smallestIndex;
+const findSmallest = (arr, min = arr[0], smallestIndex = 0, i = 1) => {
+  if (arr.length <= i) return smallestIndex;
+  const num = arr[i];
+  if (num < min) {
+    min = num;
+    smallestIndex = i;
+  }
+  return findSmallest(arr, min, smallestIndex, i + 1);
 };
 
 /**
@@ -22,12 +19,15 @@ const findSmallest = ( arr ) => {
  * @param {Array} arr An array of numbers
  * @return {Array} New sorted array
  */
-const selectionSort = ( arr ) => {
-    if ( !arr.length ) return [];
-    let smallest = arr.splice( findSmallest( arr ), 1 );
-    return smallest.concat( selectionSort( arr ) );
+const selectionSort = (arr, res = []) => {
+  if (arr.length > 0) {
+    const smallestIndex = findSmallest(arr);
+    const [curr] = arr.splice(smallestIndex, 1);
+    res.push(curr);
+    return selectionSort(arr, res);
+  }
+  return res;
 };
 
-let arr = [5, 3, 6, 2, 10];
-
-console.log( selectionSort(arr) );
+const arr = [5, 3, 6, 2, 10];
+console.log(selectionSort(arr));
