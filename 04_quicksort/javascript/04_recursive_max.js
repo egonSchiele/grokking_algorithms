@@ -14,12 +14,12 @@ function max(array) {
 
 /**
  * Calculate the largest number
- * This solution works for arrays of any length
+ * This solution works for arrays of any length and returns the smallest possible number for empty arrays
  * @param {Array} array Array of numbers
  * @param {number} max Maximum value
- * @returns {number} The argest number
+ * @returns {number} The largest number
  */
-function alternativeSolutionMax(array, max = 0) {
+function alternativeSolutionMax(array, max = Number.MIN_VALUE) {
   return array.length === 0
     ? max
     : alternativeSolutionMax(array.slice(1), array[0] > max ? array[0] : max);
@@ -27,3 +27,6 @@ function alternativeSolutionMax(array, max = 0) {
 
 console.log(max([1, 5, 10, 25, 16, 1])); // 25
 console.log(alternativeSolutionMax([1, 5, 10, 25, 16, 1])); // 25
+
+console.log(max([])); // RangeError: Maximum call stack size exceeded
+console.log(alternativeSolutionMax([])); // Number.MIN_VALUE
