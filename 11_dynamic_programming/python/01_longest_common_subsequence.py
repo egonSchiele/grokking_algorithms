@@ -1,13 +1,15 @@
 dp_table_blue = ["b", "l", "u", "e"]
 dp_table_clues = ["c", "l", "u", "e", "s"]
-dp_table = [[0 for i in range(len(dp_table_blue))] for i in range(len(dp_table_clues))] # (5,4)
-print(dp_table)
+dp_table = [[0 for i in range(len(dp_table_clues))] for i in range(len(dp_table_blue))] # (5,4)
 
+# for each row
 for i in range(0, len(dp_table_blue)):
+    # for each column
     for j in range(0, len(dp_table_clues)):
         if dp_table_clues[j] == dp_table_blue[i]:
-            dp_table[j][i] = dp_table[j-1][i-1] + 1
+            dp_table[i][j] = dp_table[i-1][j-1] + 1
         else:
-            dp_table[j][i] = max(dp_table[j-1][i], dp_table[j][i-1])
+            dp_table[i][j] = max(dp_table[i-1][j], dp_table[i][j-1])
 
-print(dp_table)
+for i in dp_table:
+    print(i)
