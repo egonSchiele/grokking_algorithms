@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Sums values in the array by recursive
@@ -7,8 +7,7 @@
  */
 const sumRecursive = (arr = []) => {
   if (!arr.length) return 0;
-  const num = arr.shift();
-  return num + sumRecursive(arr);
+  return arr[0] + sumRecursive(arr.slice(1));
 };
 
 
