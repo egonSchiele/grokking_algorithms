@@ -5,15 +5,15 @@
  * @returns {number} Index of the element with the smallest value
  */
 const findSmallest = (arr) => {
-  let min = arr[0];
-  let index = 0;
+  let [smallestElement] = arr;
+  let smallestIndex = 0;
   for (let i = 1; i < arr.length; i++) {
     const el = arr[i];
-    if (el >= min) continue;
-    min = el;
-    index = i;
+    if (el >= smallestElement) continue;
+    smallestElement = el;
+    smallestIndex = i;
   }
-  return index;
+  return smallestIndex;
 };
 
 /**
@@ -26,8 +26,8 @@ const selectionSort = (arr) => {
   const result = new Array(size).fill(0);
   for (let i = 0; i < size; i++) {
     const smallestIndex = findSmallest(arr);
-    const [curr] = arr.splice(smallestIndex, 1);
-    result[i] = curr;
+    const [smallestElement] = arr.splice(smallestIndex, 1);
+    result[i] = smallestElement;
   }
   return result;
 };
