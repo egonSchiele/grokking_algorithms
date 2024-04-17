@@ -11,7 +11,6 @@ stations["kfive"] = set(["ca", "az"])
 
 def my_set_covering(states_needed, stations):
     final_stations = set()
-    #while states_needed is not None: 这个不对，Set()而不是None
     while states_needed:
         best_station = None
         states_covered = set()
