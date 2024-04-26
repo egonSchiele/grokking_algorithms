@@ -16,7 +16,7 @@ fn sum(comptime T: type, list: []T) T {
 test "sum" {
     var arr0 = [_]i32{ 1, 2, 3, 4 };
     var arr1 = [_]i32{};
-    var tests = [_]struct {
+    const tests = [_]struct {
         arr: []i32,
         exp: i32,
     }{
@@ -31,7 +31,7 @@ test "sum" {
     };
 
     for (tests) |t| {
-        var n = sum(@TypeOf(t.exp), t.arr);
+        const n = sum(@TypeOf(t.exp), t.arr);
         try expect(n == t.exp);
     }
 }

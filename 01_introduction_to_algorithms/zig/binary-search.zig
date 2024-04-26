@@ -11,12 +11,13 @@ pub fn main() void {
 
 fn binarySearch(comptime T: type, list: []const T, item: T) ?usize {
     var low: i32 = 0;
-    var high: i32 = @intCast(i32, list.len) - 1;
+    const u_high: u32 = @truncate(list.len);
+    var high: i32 = @intCast(u_high - 1);
 
     return while (low <= high) {
-        var mid = @divTrunc((low + high), 2);
-        var m = @intCast(usize, mid);
-        var guess = list[m];
+        const mid = @divTrunc((low + high), 2);
+        const m: usize = @intCast(mid);
+        const guess = list[m];
         if (guess == item) break m;
         if (guess > item) {
             high = mid - 1;

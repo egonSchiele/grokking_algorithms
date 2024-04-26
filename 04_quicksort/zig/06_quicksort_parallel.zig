@@ -4,32 +4,31 @@ const expect = std.testing.expect;
 const heap = std.heap;
 const mem = std.mem;
 
-pub const io_mode = .evented;
-
-pub const Error = error{OutOfMemory};
+// pub const io_mode = .evented;
 
 pub fn main() !void {
     var gpa = heap.GeneralPurposeAllocator(.{}){};
     var arena = heap.ArenaAllocator.init(gpa.allocator());
     defer arena.deinit();
 
-    var s = [_]u8{ 5, 3, 6, 2, 10 };
+    var u = [_]u8{ 5, 3, 6, 2, 10 };
 
-    print("{d}\n", .{try quicksort(arena.allocator(), &s)});
+    var s = try std.ArrayList(u8).initCapacity(arena.allocator(), u.len);
+    try quicksort(u8, arena.allocator(), &u, &s);
+    print("{d}\n", .{s.items});
 }
 
-// NOTE: this async version cannot be generic because allocating a frame for a
-// generic function is not trivial.
-fn quicksort(allocator: mem.Allocator, s: []const u8) Error![]const u8 {
-    if (s.len < 2) {
-        return s;
+fn quicksort(comptime T: type, allocator: mem.Allocator, u: []const T, s: *std.ArrayList(T)) !void {
+    if (u.len < 2) {
+        try s.appendSlice(u);
+        return;
     }
 
-    var lower = std.ArrayList(u8).init(allocator);
-    var higher = std.ArrayList(u8).init(allocator);
+    var lower = std.ArrayList(T).init(allocator);
+    var higher = std.ArrayList(T).init(allocator);
 
-    const pivot = s[0];
-    for (s[1..]) |item| {
+    const pivot = u[0];
+    for (u[1..]) |item| {
         if (item <= pivot) {
             try lower.append(item);
         } else {
@@ -37,17 +36,36 @@ fn quicksort(allocator: mem.Allocator, s: []const u8) Error![]const u8 {
         }
     }
 
-    const low_frame = try allocator.create(@Frame(quicksort));
-    low_frame.* = async quicksort(allocator, lower.items);
-    var high = try quicksort(allocator, higher.items);
-    var low = try await low_frame;
+    // NOTE: zig has temporary removed the async/await syntax since v0.11.0
+    //
+    // const low_frame = try allocator.create(@Frame(quicksort));
+    // low_frame.* = async quicksort(allocator, lower.items);
+    // const high = try quicksort(allocator, higher.items);
+    // const low = try await low_frame;
 
-    var res = std.ArrayList(u8).init(allocator);
-    try res.appendSlice(low);
-    try res.append(pivot);
-    try res.appendSlice(high);
+    var low = try std.ArrayList(T).initCapacity(allocator, lower.items.len);
+    var high = try std.ArrayList(T).initCapacity(allocator, higher.items.len);
 
-    return res.items;
+    var low_handle = try std.Thread.spawn(
+        .{},
+        quicksort,
+        .{ T, allocator, lower.items, &low },
+    );
+    var high_handle = try std.Thread.spawn(
+        .{},
+        quicksort,
+        .{ T, allocator, higher.items, &high },
+    );
+    low_handle.join();
+    high_handle.join();
+
+    const lows = try low.toOwnedSlice();
+    const highs = try high.toOwnedSlice();
+    try s.appendSlice(lows);
+    try s.append(pivot);
+    try s.appendSlice(highs);
+
+    return;
 }
 
 test "quicksort" {
@@ -55,8 +73,8 @@ test "quicksort" {
     var arena = heap.ArenaAllocator.init(gpa.allocator());
     defer {
         arena.deinit();
-        const leaked = gpa.deinit();
-        if (leaked) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
+        const check = gpa.deinit();
+        if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
     }
 
     const tests = [_]struct {
@@ -78,9 +96,10 @@ test "quicksort" {
     };
 
     for (tests) |t| {
-        var res = try quicksort(arena.allocator(), t.s);
-        try expect(res.len == t.exp.len);
-        for (res) |e, i|
-            try expect(e == t.exp[i]);
+        var res = std.ArrayList(u8).init(arena.allocator());
+        try quicksort(u8, arena.allocator(), t.s, &res);
+        try expect(res.items.len == t.exp.len); // length not matching
+        for (res.items, 0..) |e, i|
+            try expect(e == t.exp[i]); // element not matching
     }
 }

@@ -32,8 +32,8 @@ fn quicksort(comptime T: type, allocator: mem.Allocator, s: []const T) anyerror!
         }
     }
 
-    var low = try quicksort(T, allocator, lower.items);
-    var high = try quicksort(T, allocator, higher.items);
+    const low = try quicksort(T, allocator, lower.items);
+    const high = try quicksort(T, allocator, higher.items);
 
     var res = std.ArrayList(T).init(allocator);
     try res.appendSlice(low);
@@ -71,9 +71,9 @@ test "quicksort" {
     };
 
     for (tests) |t| {
-        var res = try quicksort(u8, arena.allocator(), t.s);
+        const res = try quicksort(u8, arena.allocator(), t.s);
         try expect(res.len == t.exp.len);
-        for (res) |e, i|
+        for (res, 0..) |e, i|
             try expect(e == t.exp[i]);
     }
 }

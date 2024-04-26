@@ -37,10 +37,10 @@ fn search(
     var arena = heap.ArenaAllocator.init(allocator);
     defer arena.deinit();
     var searched = std.BufSet.init(arena.allocator());
-    const Q = std.TailQueue([]const u8);
+    const Q = std.DoublyLinkedList([]const u8);
     var queue = Q{};
 
-    var name_edges = graph.get(name);
+    const name_edges = graph.get(name);
     if (name_edges) |edges| {
         var nodes = try arena.allocator().alloc(Q.Node, edges.len);
         var i: usize = 0;
@@ -53,28 +53,26 @@ fn search(
     }
 
     while (queue.len > 0) {
-        var first = queue.popFirst();
-        if (first) |person| {
-            if (!searched.contains(person.data)) {
-                if (personIsSeller(person.data)) {
-                    std.debug.print("{s} is a mango seller!\n", .{person.data});
-                    return;
-                } else {
-                    var ee = graph.get(person.data);
-                    if (ee) |edges| {
-                        var nodes = try arena.allocator().alloc(Q.Node, edges.len);
-                        var i: usize = 0;
-                        while (i < edges.len) : (i += 1) {
-                            nodes[i].data = edges[i];
-                        }
-                        for (nodes) |*node| {
-                            queue.append(node);
-                        }
-                    }
-                    try searched.insert(person.data);
-                }
+        const person = queue.popFirst() orelse unreachable; // we always have at least one node if len > 0
+        if (searched.contains(person.data)) {
+            continue;
+        }
+        if (personIsSeller(person.data)) {
+            std.debug.print("{s} is a mango seller!\n", .{person.data});
+            return;
+        }
+        const ee = graph.get(person.data);
+        if (ee) |edges| {
+            var nodes = try arena.allocator().alloc(Q.Node, edges.len);
+            var i: usize = 0;
+            while (i < edges.len) : (i += 1) {
+                nodes[i].data = edges[i];
+            }
+            for (nodes) |*node| {
+                queue.append(node);
             }
         }
+        try searched.insert(person.data);
     }
 }
 
@@ -88,8 +86,8 @@ test "search" {
     var graph = std.StringHashMap([][]const u8).init(gpa.allocator());
     defer {
         graph.deinit();
-        const leaked = gpa.deinit();
-        if (leaked) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
+        const check = gpa.deinit();
+        if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
     }
 
     var you = [_][]const u8{ "alice", "bob", "claire" };

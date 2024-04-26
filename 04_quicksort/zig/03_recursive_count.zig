@@ -16,7 +16,7 @@ test "count" {
     var arr0 = [_]i32{};
     var arr1 = [_]i32{42};
     var arr2 = [_]i32{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-    var tests = [_]struct {
+    const tests = [_]struct {
         arr: []i32,
         exp: i32,
     }{

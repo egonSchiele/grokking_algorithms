@@ -10,12 +10,12 @@ pub fn main() !void {
 }
 
 fn selectionSort(comptime T: type, list: []T) void {
-    for (list) |_, i| {
+    for (0..list.len) |i| {
         var j = i + 1;
         while (j < list.len) : (j += 1) {
             if (list[i] > list[j]) {
                 // swap
-                var tmp = list[i];
+                const tmp = list[i];
                 list[i] = list[j];
                 list[j] = tmp;
             }
@@ -30,6 +30,6 @@ test "selectionSort" {
     selectionSort(i32, s[0..]);
 
     try expect(s.len == exp.len);
-    for (s) |e, i|
+    for (s, 0..) |e, i|
         try expect(e == exp[i]);
 }
