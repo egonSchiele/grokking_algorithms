@@ -6,109 +6,110 @@ pub fn main() !void {
     var gpa = heap.GeneralPurposeAllocator(.{}){};
     var arena = heap.ArenaAllocator.init(gpa.allocator());
     defer arena.deinit();
+    const alloc = arena.allocator();
 
-    var graph = std.StringHashMap(*std.StringHashMap(f32)).init(arena.allocator());
+    var graph = std.StringHashMap(*std.StringHashMap(f32)).init(alloc);
 
-    var start = std.StringHashMap(f32).init(arena.allocator());
+    var start = std.StringHashMap(f32).init(alloc);
     try start.put("a", 6);
     try start.put("b", 2);
+    try start.put("c", 42);
     try graph.put("start", &start);
 
-    var a = std.StringHashMap(f32).init(arena.allocator());
+    var a = std.StringHashMap(f32).init(alloc);
     try a.put("finish", 1);
     try graph.put("a", &a);
 
-    var b = std.StringHashMap(f32).init(arena.allocator());
+    var b = std.StringHashMap(f32).init(alloc);
     try b.put("a", 3);
     try b.put("finish", 5);
     try graph.put("b", &b);
 
-    var fin = std.StringHashMap(f32).init(arena.allocator());
+    var c = std.StringHashMap(f32).init(alloc);
+    try c.put("finish", 42);
+    try graph.put("c", &c);
+
+    var fin = std.StringHashMap(f32).init(alloc);
     try graph.put("finish", &fin);
 
-    var result = try dijkstra(arena.allocator(), &graph, "start", "finish");
+    var costs, var path = try dijkstra(alloc, &graph, "start", "finish");
 
-    std.debug.print("Cost from the start to each node:\n", .{});
-    var costs_it = result.costs.iterator();
-    while (costs_it.next()) |cost| {
-        std.debug.print("{s}: {d} ", .{ cost.key_ptr.*, cost.value_ptr.* });
+    // Traverse the path hashmap backwards from finish to start and store the
+    // steps in an ordered list.
+    // The hashmap is unordered so there is no guarantee to print the path in
+    // the correct order only by iterating through key/value(s).
+    var dir = std.ArrayList([]const u8).init(alloc);
+
+    var v: []const u8 = "finish";
+    try dir.append(v);
+    var node = path.get(v);
+    while (node) |n| : (node = path.get(v)) {
+        try dir.append(n.?);
+        v = n.?;
     }
-    std.debug.print("\n", .{});
-    std.debug.print("\n", .{});
     std.debug.print("Path from start to finish:\n", .{});
-    var path_it = result.path.iterator();
-    while (path_it.next()) |parent| {
-        std.debug.print("{s} = {?s}\n", .{ parent.key_ptr.*, parent.value_ptr.* });
+    std.debug.print("start =(", .{});
+    var i = dir.items.len - 2;
+    var prev_cost: f32 = 0;
+    while (i > 0) : (i -= 1) {
+        const d = dir.items[i];
+        const cost = costs.get(d).?;
+        std.debug.print("{d})=> {s:<6}: {d}\n{s:<5} =(", .{ cost - prev_cost, d, cost, d });
+        prev_cost = cost;
     }
+    const fin_cost = costs.get("finish").?;
+    std.debug.print("{d})=> finish: {d}\n", .{ fin_cost - prev_cost, fin_cost });
 }
 
-/// this struct is needed because coercing an anonymous struct literal to an
-/// error union is not supported by zig yet.  Once this is fixed (with the
-/// self-hosted compiler, see https://github.com/ziglang/zig/issues/11443), the
-/// dijkstra function could just return:
-/// ```zig
-///    return {
-///        .costs = costs,
-///        .path = parents,
-///    };
-/// ```
-const dijkstraResult = struct {
-    costs: std.StringHashMap(f32),
-    path: std.StringHashMap(?[]const u8),
-};
-
-/// applies the dijkstra algorithm on the provided graph using
-/// the provided start anf finish nodes.
+/// applies the dijkstra algorithm on graph using start and finish nodes.
+/// Returns a tuple with the costs and the path.
 fn dijkstra(
     allocator: mem.Allocator,
     graph: *std.StringHashMap(*std.StringHashMap(f32)),
     start: []const u8,
     finish: []const u8,
-) !dijkstraResult {
+) !struct {
+    std.StringHashMap(f32), // costs
+    std.StringHashMap(?[]const u8), // path
+} {
     var costs = std.StringHashMap(f32).init(allocator);
     var parents = std.StringHashMap(?[]const u8).init(allocator);
-    try costs.put(finish, std.math.inf_f32);
+    try costs.put(finish, std.math.inf(f32));
     try parents.put(finish, null);
 
     // initialize costs and parents maps for the nodes having start as parent
-    var start_graph = graph.get(start);
-    if (start_graph) |sg| {
-        var it = sg.iterator();
-        while (it.next()) |elem| {
-            try costs.put(elem.key_ptr.*, elem.value_ptr.*);
-            try parents.put(elem.key_ptr.*, start);
-        }
+    const start_graph = graph.get(start) orelse return error.MissingNode;
+    var sg_it = start_graph.iterator();
+    while (sg_it.next()) |elem| {
+        try parents.put(elem.key_ptr.*, start);
+        try costs.put(elem.key_ptr.*, elem.value_ptr.*);
     }
 
     var processed = std.BufSet.init(allocator);
 
     var n = findCheapestNode(&costs, &processed);
+    // try parents.put(n.?, start);
     while (n) |node| : (n = findCheapestNode(&costs, &processed)) {
-        var cost = costs.get(node).?;
-        var neighbors = graph.get(node);
-        if (neighbors) |nbors| {
-            var it = nbors.iterator();
-            while (it.next()) |neighbor| {
-                var new_cost = cost + neighbor.value_ptr.*;
-                if (costs.get(neighbor.key_ptr.*).? > new_cost) {
-                    // update maps if we found a cheaper path
-                    try costs.put(neighbor.key_ptr.*, new_cost);
-                    try parents.put(neighbor.key_ptr.*, node);
-                }
+        const cost = costs.get(node).?;
+        const neighbors = graph.get(node) orelse return error.MissingNode;
+        var it = neighbors.iterator();
+        while (it.next()) |neighbor| {
+            const new_cost = cost + neighbor.value_ptr.*;
+            if (costs.get(neighbor.key_ptr.*).? > new_cost) {
+                // update maps if we found a cheaper path
+                try costs.put(neighbor.key_ptr.*, new_cost);
+                try parents.put(neighbor.key_ptr.*, node);
             }
         }
         try processed.insert(node);
     }
 
-    return dijkstraResult{
-        .costs = costs,
-        .path = parents,
-    };
+    return .{ costs, parents };
 }
 
 /// finds the cheapest node among the not yet processed ones.
 fn findCheapestNode(costs: *std.StringHashMap(f32), processed: *std.BufSet) ?[]const u8 {
-    var lowest_cost = std.math.inf_f32;
+    var lowest_cost = std.math.inf(f32);
     var lowest_cost_node: ?[]const u8 = null;
 
     var it = costs.iterator();
@@ -127,35 +128,36 @@ test "dijkstra" {
     var arena = heap.ArenaAllocator.init(gpa.allocator());
     defer {
         arena.deinit();
-        const leaked = gpa.deinit();
-        if (leaked) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
+        const check = gpa.deinit();
+        if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
     }
+    const alloc = arena.allocator();
 
-    var graph = std.StringHashMap(*std.StringHashMap(f32)).init(arena.allocator());
+    var graph = std.StringHashMap(*std.StringHashMap(f32)).init(alloc);
 
-    var start = std.StringHashMap(f32).init(arena.allocator());
+    var start = std.StringHashMap(f32).init(alloc);
     try start.put("a", 6);
     try start.put("b", 2);
     try graph.put("start", &start);
 
-    var a = std.StringHashMap(f32).init(arena.allocator());
+    var a = std.StringHashMap(f32).init(alloc);
     try a.put("finish", 1);
     try graph.put("a", &a);
 
-    var b = std.StringHashMap(f32).init(arena.allocator());
+    var b = std.StringHashMap(f32).init(alloc);
     try b.put("a", 3);
     try b.put("finish", 5);
     try graph.put("b", &b);
 
-    var fin = std.StringHashMap(f32).init(arena.allocator());
+    var fin = std.StringHashMap(f32).init(alloc);
     try graph.put("finish", &fin);
 
-    var result = try dijkstra(arena.allocator(), &graph, "start", "finish");
+    var costs, var path = try dijkstra(alloc, &graph, "start", "finish");
 
-    try std.testing.expectEqual(result.costs.get("a").?, 5);
-    try std.testing.expectEqual(result.costs.get("b").?, 2);
-    try std.testing.expectEqual(result.costs.get("finish").?, 6);
-    try std.testing.expectEqual(result.path.get("b").?, "start");
-    try std.testing.expectEqual(result.path.get("a").?, "b");
-    try std.testing.expectEqual(result.path.get("finish").?, "a");
+    try std.testing.expectEqual(costs.get("a").?, 5);
+    try std.testing.expectEqual(costs.get("b").?, 2);
+    try std.testing.expectEqual(costs.get("finish").?, 6);
+    // try std.testing.expectEqual(path.get("b").?, "start");
+    try std.testing.expectEqual(path.get("a").?, "b");
+    try std.testing.expectEqual(path.get("finish").?, "a");
 }

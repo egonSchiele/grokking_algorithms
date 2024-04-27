@@ -47,7 +47,7 @@ func main() {
 		// Go through all the neighbors of this node.
 		neighbors := graph[node]
 
-		for node, _ := range neighbors {
+		for node := range neighbors {
 			new_cost := cost + neighbors[node]
 			// If it's cheaper to get to this neighbor by going through this node...
 			if costs[node] > new_cost {
@@ -71,7 +71,7 @@ func find_lowest_cost_node(costs map[string]float64) string {
 	lowest_cost := math.Inf(1)
 	lowest_cost_node := ""
 
-	for node, _ := range costs {
+	for node := range costs {
 		// fmt.Println("Node:", node, "Value:", value)
 		cost := costs[node]
 		// If it's the lowest cost so far and hasn't been processed yet...

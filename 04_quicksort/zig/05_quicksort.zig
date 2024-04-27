@@ -48,8 +48,8 @@ test "quicksort" {
     var arena = heap.ArenaAllocator.init(gpa.allocator());
     defer {
         arena.deinit();
-        const leaked = gpa.deinit();
-        if (leaked) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
+        const check = gpa.deinit();
+        if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
     }
 
     const tests = [_]struct {
