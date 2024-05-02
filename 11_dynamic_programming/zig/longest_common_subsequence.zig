@@ -2,18 +2,20 @@ const std = @import("std");
 const heap = std.heap;
 const math = std.math;
 const expect = std.testing.expect;
+const expectEqualStrings = std.testing.expectEqualStrings;
 
 pub fn main() !void {
     var gpa = heap.GeneralPurposeAllocator(.{}){};
     var arena = heap.ArenaAllocator.init(gpa.allocator());
     defer arena.deinit();
 
-    var n = try subsequence(arena.allocator(), "fish", "fosh");
-    std.debug.print("{d}\n", .{n});
+    const n, const sub = try subsequence(arena.allocator(), "fish", "fosh");
+    std.debug.print("{d}: {s}\n", .{ n, sub });
 }
 
-fn subsequence(allocator: std.mem.Allocator, a: []const u8, b: []const u8) !u32 {
+fn subsequence(allocator: std.mem.Allocator, a: []const u8, b: []const u8) !struct { u32, []const u8 } {
     var grid = try allocator.alloc([]u32, a.len + 1);
+    var subseq = try std.ArrayList(u8).initCapacity(allocator, @max(a.len, b.len));
 
     for (grid) |*row| {
         row.* = try allocator.alloc(u32, b.len + 1);
@@ -28,24 +30,26 @@ fn subsequence(allocator: std.mem.Allocator, a: []const u8, b: []const u8) !u32 
         while (j <= b.len) : (j += 1) {
             if (a[i - 1] == b[j - 1]) {
                 grid[i][j] = grid[i - 1][j - 1] + 1;
+                try subseq.append(a[i - 1]);
             } else {
-                grid[i][j] = math.max(grid[i][j - 1], grid[i - 1][j]);
+                grid[i][j] = @max(grid[i][j - 1], grid[i - 1][j]);
             }
         }
     }
 
-    return grid[a.len][b.len];
+    const sub = try subseq.toOwnedSlice();
+    return .{ grid[a.len][b.len], sub };
 }
 
 test "subsequence" {
-    var tests = [_]struct {
+    const tests = [_]struct {
         a: []const u8,
         b: []const u8,
-        exp: u32,
+        expected: struct { u32, []const u8 },
     }{
-        .{ .a = "abc", .b = "abcd", .exp = 3 },
-        .{ .a = "pera", .b = "mela", .exp = 2 },
-        .{ .a = "banana", .b = "kiwi", .exp = 0 },
+        .{ .a = "abc", .b = "abcd", .expected = .{ 3, "abc" } },
+        .{ .a = "pera", .b = "mela", .expected = .{ 2, "ea" } },
+        .{ .a = "banana", .b = "kiwi", .expected = .{ 0, "" } },
     };
 
     for (tests) |t| {
@@ -53,11 +57,12 @@ test "subsequence" {
         var arena = heap.ArenaAllocator.init(gpa.allocator());
         defer {
             arena.deinit();
-            const leaked = gpa.deinit();
-            if (leaked) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
+            const check = gpa.deinit();
+            if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
         }
 
-        var n = try subsequence(arena.allocator(), t.a, t.b);
-        try expect(n == t.exp);
+        const actual = try subsequence(arena.allocator(), t.a, t.b);
+
+        try std.testing.expectEqualDeep(t.expected, actual);
     }
 }
