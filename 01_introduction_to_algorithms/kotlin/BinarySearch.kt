@@ -2,7 +2,7 @@ fun List<Int>.binarySearch(item: Int): Int? {
     var min = 0
     var max = lastIndex
     while (min <= max) {
-        val mid = (min + max) / 2
+        val mid = (min + max)/2
         val guess = this[mid]
         when {
             guess == item -> return mid
@@ -13,9 +13,7 @@ fun List<Int>.binarySearch(item: Int): Int? {
     return null
 }
 
-
 val sortedArray = (0..100 step 3).toList()
-
 
 fun main(args: Array<String>) {
     print(sortedArray.binarySearch(6))
