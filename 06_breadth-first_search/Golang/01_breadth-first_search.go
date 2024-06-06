@@ -22,30 +22,21 @@ func main() {
 func search(name string) bool {
 	var search_queue []string
 	search_queue = append(search_queue, graph[name]...)
-	var searched []string
+	searched := make(map[string]bool)
 	var person string
 	for len(search_queue) != 0 {
 		person = search_queue[0]
 		search_queue = search_queue[1:]
-		if person_not_in_searched(person, searched) {
+		if !searched[person] {
 			if person_is_seller(person) {
 				println(person + " is mango seller!")
 				return true
 			}
 
 			search_queue = append(search_queue, graph[person]...)
-			searched = append(searched, person)
+			searched[person] = true
 
 		}
 	}
 	return false
-}
-
-func person_not_in_searched(person string, searched []string) bool {
-	for _, n := range searched {
-		if n == person {
-			return false
-		}
-	}
-	return true
 }
