@@ -88,7 +88,6 @@ fn dijkstra(
     var processed = std.BufSet.init(allocator);
 
     var n = findCheapestNode(&costs, &processed);
-    // try parents.put(n.?, start);
     while (n) |node| : (n = findCheapestNode(&costs, &processed)) {
         const cost = costs.get(node).?;
         const neighbors = graph.get(node) orelse return error.MissingNode;
@@ -157,7 +156,7 @@ test "dijkstra" {
     try std.testing.expectEqual(costs.get("a").?, 5);
     try std.testing.expectEqual(costs.get("b").?, 2);
     try std.testing.expectEqual(costs.get("finish").?, 6);
-    // try std.testing.expectEqual(path.get("b").?, "start");
+    try std.testing.expectEqual(path.get("b").?, "start");
     try std.testing.expectEqual(path.get("a").?, "b");
     try std.testing.expectEqual(path.get("finish").?, "a");
 }
