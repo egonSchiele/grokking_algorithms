@@ -13,9 +13,9 @@ func main() {
 
 func check_voter(name string) {
 	if voted[name] {
-		fmt.Println("kick tem out!")
+		fmt.Println("kick them out!")
 	} else {
 		voted[name] = true
-		fmt.Println("let tem vote!")
+		fmt.Println("let them vote!")
 	}
 }
