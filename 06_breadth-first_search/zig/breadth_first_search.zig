@@ -81,14 +81,9 @@ fn personIsSeller(name: []const u8) bool {
 }
 
 test "search" {
-    var gpa = heap.GeneralPurposeAllocator(.{}){};
-
-    var graph = std.StringHashMap([][]const u8).init(gpa.allocator());
-    defer {
-        graph.deinit();
-        const check = gpa.deinit();
-        if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
-    }
+    const allocator = std.testing.allocator;
+    var graph = std.StringHashMap([][]const u8).init(allocator);
+    defer graph.deinit();
 
     var you = [_][]const u8{ "alice", "bob", "claire" };
     var bob = [_][]const u8{ "anuj", "peggy" };
@@ -108,5 +103,5 @@ test "search" {
     try graph.put("thom", &thom);
     try graph.put("jonny", &jonny);
 
-    try search(gpa.allocator(), &graph, "you");
+    try search(allocator, &graph, "you");
 }

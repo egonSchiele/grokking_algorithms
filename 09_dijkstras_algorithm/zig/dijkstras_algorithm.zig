@@ -123,13 +123,8 @@ fn findCheapestNode(costs: *std.StringHashMap(f32), processed: *std.BufSet) ?[]c
 }
 
 test "dijkstra" {
-    var gpa = heap.GeneralPurposeAllocator(.{}){};
-    var arena = heap.ArenaAllocator.init(gpa.allocator());
-    defer {
-        arena.deinit();
-        const check = gpa.deinit();
-        if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
-    }
+    var arena = heap.ArenaAllocator.init(std.testing.allocator);
+    defer arena.deinit();
     const alloc = arena.allocator();
 
     var graph = std.StringHashMap(*std.StringHashMap(f32)).init(alloc);

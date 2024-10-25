@@ -53,13 +53,8 @@ test "subsequence" {
     };
 
     for (tests) |t| {
-        var gpa = heap.GeneralPurposeAllocator(.{}){};
-        var arena = heap.ArenaAllocator.init(gpa.allocator());
-        defer {
-            arena.deinit();
-            const check = gpa.deinit();
-            if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
-        }
+        var arena = heap.ArenaAllocator.init(std.testing.allocator);
+        defer arena.deinit();
 
         const actual = try subsequence(arena.allocator(), t.a, t.b);
 

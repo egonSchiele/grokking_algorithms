@@ -69,13 +69,8 @@ fn quicksort(comptime T: type, allocator: mem.Allocator, u: []const T, s: *std.A
 }
 
 test "quicksort" {
-    var gpa = heap.GeneralPurposeAllocator(.{}){};
-    var arena = heap.ArenaAllocator.init(gpa.allocator());
-    defer {
-        arena.deinit();
-        const check = gpa.deinit();
-        if (check == .leak) std.testing.expect(false) catch @panic("TEST FAIL"); //fail test; can't try in defer as defer is executed after we return
-    }
+    var arena = heap.ArenaAllocator.init(std.testing.allocator);
+    defer arena.deinit();
 
     const tests = [_]struct {
         s: []const u8,
