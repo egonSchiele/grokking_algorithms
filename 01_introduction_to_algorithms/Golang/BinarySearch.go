@@ -19,7 +19,26 @@ func checkBin(list []int, i int) int {
 	return -1
 }
 
+func RecursiveCheckBin(list []int, item int, high, low int) int {
+	if high >= low {
+		mid := (high + low) / 2
+
+		if list[mid] == item {
+			return mid
+		} else if list[mid] > item {
+			return RecursiveCheckBin(list, item, mid-1, low)
+		} else {
+			return RecursiveCheckBin(list, item, high, mid+1)
+		}
+
+	}
+	return -1
+}
+
 func main() {
-	fmt.Println(checkBin([]int{1, 2, 3, 4, 5}, 1))  // 0
-	fmt.Println(checkBin([]int{1, 2, 3, 4, 5}, -1)) // -1
+	list := []int{1, 2, 3, 4, 5}
+	fmt.Println(checkBin(list, 2))                                          // 0
+	fmt.Println(checkBin(list, -1))                                         // -1
+	fmt.Println(RecursiveCheckBin([]int{1, 2, 3, 4, 5}, 2, len(list)-1, 0)) // 1
+	fmt.Println(RecursiveCheckBin([]int{1, 2, 3, 4, 5}, 0, len(list)-1, 0)) //-1
 }
