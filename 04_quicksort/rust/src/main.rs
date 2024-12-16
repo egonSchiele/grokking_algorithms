@@ -28,25 +28,6 @@ fn maximum<T: Ord>(list: &[T]) -> Option<&T> {
     }
 }
 
-fn binary_search<T: Ord>(list: &[T], item: T) -> Option<usize> {
-    let mid = list.len() / 2;
-
-    match list.get(mid) {
-        None => None,
-        Some(val) => {
-            if *val == item {
-                Some(mid)
-            } else if *val > item {
-                let sublist = &list[..mid];
-                binary_search(sublist, item)
-            } else {
-                let sublist = &list[(mid + 1)..];
-                binary_search(sublist, item)
-            }
-        }
-    }
-}
-
 fn quicksort<T: Ord + Clone>(list: &Vec<T>) -> Vec<T> {
     if list.len() < 2 {
         list.to_vec()
@@ -76,7 +57,6 @@ fn main() {
     let list = vec![10, 5, 2, 12, 3];
 
     println!("quicksort: {:?}", quicksort(&list));
-    println!("binary search: {:?}", binary_search(&list, 3));
     println!("sum: {}", rec_sum(&list));
     println!("count: {}", rec_count(&list));
     println!("maximum: {:?}", maximum(&list));
@@ -114,27 +94,5 @@ mod test {
         let result = maximum(&list);
 
         assert_eq!(result, Some(&expected));
-    }
-
-    #[test]
-    fn simple_binary_search() {
-        let list = &[2, 3, 4, 13, 40];
-        let item = 3;
-        let expected = Some(1);
-
-        let result = binary_search(list, item);
-
-        assert_eq!(result, expected);
-    }
-
-    #[test]
-    fn search_for_nonexistent_item() {
-        let list = &[2, 3, 4, 13, 40];
-        let item = 100;
-        let expected = None;
-
-        let result = binary_search(list, item);
-
-        assert_eq!(result, expected);
     }
 }
