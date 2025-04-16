@@ -1,41 +1,69 @@
-// A set of all the states we need to cover
-let statesNeeded: Set<string> = new Set(["mt", "wa", "or", "id", "nv", "ut", "ca", "az"]);
+/**
+ * Search for LCS
+ *
+ * @param {string} string1 first string
+ * @param {string} string2 second string
+ *
+ * @return {object} with keys: lcs, offset, sequence
+ */
+function lcs(string1: string, string2: string): { lcs: number; offset: number; sequence: string } {
+	if (typeof string1 !== "string" || typeof string2 !== "string" || !string1 || !string2) {
+		return {
+			lcs: 0,
+			offset: 0,
+			sequence: ""
+		};
+	}
 
-// An object mapping each station to the set of states it covers
-const stations: Record<string, Set<string>> = {
-  kone: new Set(["id", "nv", "ut"]),
-  ktwo: new Set(["wa", "id", "mt"]),
-  kthree: new Set(["or", "nv", "ca"]),
-  kfour: new Set(["nv", "ut"]),
-  kfive: new Set(["ca", "az"]),
-};
+	let lcs = 0;
+	let lastSubIndex = 0;
 
+	const table: number[][] = [];
+	const len1 = string1.length;
+	const len2 = string2.length;
 
-const finalStations: Set<string> = new Set();
+	let row: number;
+	let col: number;
 
+	for (row = 0; row <= len1; row++) {
+		table[row] = [];
+		for (col = 0; col <= len2; col++) {
+			table[row][col] = 0;
+		}
+	}
 
-while (statesNeeded.size > 0) {
-  let bestStation: string | null = null;
-  let statesCovered: Set<string> = new Set();
+	let i: number;
+	let j: number;
 
-  // Find the station that covers the most uncovered states
-  for (const station in stations) {
-    const states = stations[station];
-    const covered = new Set([...statesNeeded].filter(state => states.has(state)));
+	for (i = 0; i < len1; i++) {
+		for (j = 0; j < len2; j++) {
+			if (string1[i] === string2[j]) {
+				if (table[i][j] === 0) {
+					table[i + 1][j + 1] = 1;
+				} else {
+					table[i + 1][j + 1] = table[i][j] + 1;
+				}
 
-    if (covered.size > statesCovered.size) {
-      bestStation = station;
-      statesCovered = covered;
-    }
-  }
+				if (table[i + 1][j + 1] > lcs) {
+					lcs = table[i + 1][j + 1];
+					lastSubIndex = i;
+				}
+			} else {
+				table[i + 1][j + 1] = 0;
+			}
+		}
+	}
 
-
-  statesNeeded = new Set([...statesNeeded].filter(x => !statesCovered.has(x)));
-
-
-  if (bestStation) {
-    finalStations.add(bestStation);
-  }
+	return {
+		lcs: lcs,
+		offset: lastSubIndex - lcs + 1,
+		sequence: string1.slice(lastSubIndex - lcs + 1, lastSubIndex + 1)
+	};
 }
 
-console.log(finalStations); // Set { 'kone', 'ktwo', 'kthree', 'kfive' }
+// Test cases
+console.log(lcs("hish", "fish")); // { lcs: 3, offset: 1, sequence: 'ish' }
+console.log(lcs("vista", "hish")); // { lcs: 2, offset: 1, sequence: 'is' }
+console.log(lcs("google", "abcdefgooglehijklm")); // { lcs: 6, offset: 0, sequence: 'google' }
+console.log(lcs("0", "0")); // { lcs: 1, offset: 0, sequence: '0' }
+console.log(lcs("0", 0 as any)); // { lcs: 0, offset: 0, sequence: '' }
