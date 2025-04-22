@@ -1,69 +1,34 @@
-/**
- * Search for LCS
- *
- * @param {string} string1 first string
- * @param {string} string2 second string
- *
- * @return {object} with keys: lcs, offset, sequence
- */
-function lcs(string1: string, string2: string): { lcs: number; offset: number; sequence: string } {
-	if (typeof string1 !== "string" || typeof string2 !== "string" || !string1 || !string2) {
-		return {
-			lcs: 0,
-			offset: 0,
-			sequence: ""
-		};
-	}
+// You pass an array in, and it gets converted to a set.
+let statesNeeded: Set<string> = new Set(["mt", "wa", "or", "id", "nv", "ut", "ca", "az"]);
 
-	let lcs = 0;
-	let lastSubIndex = 0;
+const stations: Record<string, Set<string>> = {};
+stations["kone"] = new Set(["id", "nv", "ut"]);
+stations["ktwo"] = new Set(["wa", "id", "mt"]);
+stations["kthree"] = new Set(["or", "nv", "ca"]);
+stations["kfour"] = new Set(["nv", "ut"]);
+stations["kfive"] = new Set(["ca", "az"]);
 
-	const table: number[][] = [];
-	const len1 = string1.length;
-	const len2 = string2.length;
+const finalStations: Set<string> = new Set();
 
-	let row: number;
-	let col: number;
+while (statesNeeded.size) {
+  let bestStation: string | null = null;
+  let statesCovered: Set<string> = new Set();
 
-	for (row = 0; row <= len1; row++) {
-		table[row] = [];
-		for (col = 0; col <= len2; col++) {
-			table[row][col] = 0;
-		}
-	}
+  for (let station in stations) {
+    const states = stations[station];
+    const covered = new Set([...statesNeeded].filter(x => states.has(x)));
 
-	let i: number;
-	let j: number;
+    if (covered.size > statesCovered.size) {
+      bestStation = station;
+      statesCovered = covered;
+    }
+  }
 
-	for (i = 0; i < len1; i++) {
-		for (j = 0; j < len2; j++) {
-			if (string1[i] === string2[j]) {
-				if (table[i][j] === 0) {
-					table[i + 1][j + 1] = 1;
-				} else {
-					table[i + 1][j + 1] = table[i][j] + 1;
-				}
+  statesNeeded = new Set([...statesNeeded].filter(x => !statesCovered.has(x)));
 
-				if (table[i + 1][j + 1] > lcs) {
-					lcs = table[i + 1][j + 1];
-					lastSubIndex = i;
-				}
-			} else {
-				table[i + 1][j + 1] = 0;
-			}
-		}
-	}
-
-	return {
-		lcs: lcs,
-		offset: lastSubIndex - lcs + 1,
-		sequence: string1.slice(lastSubIndex - lcs + 1, lastSubIndex + 1)
-	};
+  if (bestStation !== null) {
+    finalStations.add(bestStation);
+  }
 }
 
-// Test cases
-console.log(lcs("hish", "fish")); // { lcs: 3, offset: 1, sequence: 'ish' }
-console.log(lcs("vista", "hish")); // { lcs: 2, offset: 1, sequence: 'is' }
-console.log(lcs("google", "abcdefgooglehijklm")); // { lcs: 6, offset: 0, sequence: 'google' }
-console.log(lcs("0", "0")); // { lcs: 1, offset: 0, sequence: '0' }
-console.log(lcs("0", 0 as any)); // { lcs: 0, offset: 0, sequence: '' }
+console.log(finalStations); // Set { 'kone', 'ktwo', 'kthree', 'kfive' }
