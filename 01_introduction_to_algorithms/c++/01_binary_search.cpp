@@ -4,7 +4,7 @@ using namespace std;
 void binarySearch(int data_array[], int element, int len)
 {
     int low = 0;
-    int high = len;
+    int high = len -1;
     while (low <= high)
     {
         int mid = (low + high)/2; 
