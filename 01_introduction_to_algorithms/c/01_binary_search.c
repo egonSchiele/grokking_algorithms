@@ -15,7 +15,7 @@ int main()
 int binarySearch(int list[], int item, int len)
 {
     int low = 0;
-    int high = len;
+    int high = len -1;
     while (low <= high)
     {
         int mid = (low + high)/2; 
