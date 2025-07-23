@@ -1,0 +1,14 @@
+public class CountItem {
+
+    public static int countItems(int[] list, int startIndex){
+        if (startIndex == list.length) {
+            return 0; // Base case: no items
+        }
+        return 1 + countItems(list, startIndex+1);
+    }
+
+    public static void main(String[] args) {
+        int[] list = new int[]{2, 4, 6, 8, 10, 12};
+        System.out.println(countItems(list, 0));
+    }
+}
