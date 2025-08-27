@@ -28,8 +28,8 @@ public class Quicksort {
                 swap(array, i, j);
             }
         }
-        swap(array, i+1, high);
-        return i+1;
+        swap(array, i + 1, high);
+        return i + 1;
     }
 
     private static void swap(int[] array, int i, int j){
