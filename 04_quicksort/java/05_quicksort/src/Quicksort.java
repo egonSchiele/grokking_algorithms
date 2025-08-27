@@ -1,35 +1,40 @@
 import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class Quicksort {
-    public static void main(String[] args) {
-        System.out.println(quicksort(Arrays.asList(10, 5, 2, 3))); // [2, 3, 5, 10]
+    public static void main(String[] args){
+        int[] array = {10, 5, 2, 3};
+        System.out.println(Arrays.toString(array)); // Original array
+        quickSort(array, 0, array.length - 1);
+        System.out.println(Arrays.toString(array)); // Sorted array
     }
 
-    private static List<Integer> quicksort(List<Integer> list) {
-        if (list.size() < 2) {
-            // base case, arrays with 0 or 1 element are already "sorted"
-            return list;
-        } else {
-            // recursive case
-            Integer pivot = list.get(0);
-
-            // sub-array of all the elements less than the pivot
-            List<Integer> less = list.stream().skip(1).filter(el -> el <= pivot)
-                    .collect(Collectors.toList());
-
-            // sub-array of all the elements greater than the pivot
-            List<Integer> greater = list.stream().skip(1).filter(el -> el > pivot)
-                    .collect(Collectors.toList());
-
-            return Stream.of(
-                    quicksort(less).stream(),
-                    Stream.of(pivot),
-                    quicksort(greater).stream())
-                    .flatMap(Function.identity()).collect(Collectors.toList());
+    private static void quickSort(int[] array, int low, int high){
+        if(low >= high){
+            // Base case: arrays with 0 or 1 element are already "sorted"
+            return;
         }
+        // Recursive case
+        int pivotIndex = partition(array, low, high);
+        quickSort(array, low, pivotIndex - 1);   // Sub-array of elements less than pivot
+        quickSort(array, pivotIndex + 1, high);  // Sub-array of elements greater than pivot
+    }
+
+   private static int partition(int[] array, int low, int high) {
+        int pivot = array[high];
+        int i = low - 1;
+        for(int j = low; j < high; j++){
+            if(array[j] <= pivot){
+                i++;
+                swap(array, i, j);
+            }
+        }
+        swap(array, i+1, high);
+        return i+1;
+    }
+
+    private static void swap(int[] array, int i, int j){
+        int temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
