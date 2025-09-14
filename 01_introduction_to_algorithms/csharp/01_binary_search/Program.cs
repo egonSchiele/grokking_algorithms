@@ -16,7 +16,7 @@ namespace ConsoleApplication
         private static int? BinarySearch(IList<int> list, int item)
         {
             var low = 0;
-            var high = list.Count() - 1;
+            var high = list.Count - 1;
 
             while (low <= high)
             {
