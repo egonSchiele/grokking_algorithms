@@ -18,7 +18,7 @@ namespace ConsoleApplication
             var pivot = list.First();
             var less = list.Skip(1).Where(i => i <= pivot);
             var greater = list.Skip(1).Where(i => i > pivot);
-            return QuickSort(less).Union(new List<int> { pivot }).Union(QuickSort(greater));
+            return QuickSort(less).Concat(new List<int> { pivot }).Concat(QuickSort(greater));
         }
     }
 }
