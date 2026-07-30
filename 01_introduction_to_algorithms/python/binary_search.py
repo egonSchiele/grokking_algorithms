@@ -62,4 +62,12 @@ if __name__ == "__main__":
   print(math.log2(128))
   # Exercise1.2: Suppose you double the size of the list. What's the maximum number of steps it would take now?
   print(math.log2(128*2))
-  
+  # Rocket question: 1ms per item in list
+  # How much time for 1 billion for:
+  # Linear search
+  time = 0.01
+  items = 1000000000
+  print(f"In linear search, the algorithm would take {(time * items)/60}min")
+
+  # Binary search
+  print(f"In binary search, the algorithm would take {time * math.log2(items)}s")
