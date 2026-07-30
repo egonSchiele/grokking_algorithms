@@ -1,3 +1,5 @@
+import math
+
 class BinarySearch():
 
   def search_iterative(self, list, item):
@@ -56,3 +58,8 @@ if __name__ == "__main__":
 
   # 'None' means nil in Python. We use to indicate that the item wasn't found.
   print(bs.search_iterative(my_list, -1)) # => None
+  # Exercise1.1: What's the maximum number of steps it would take for 128 items?
+  print(math.log2(128))
+  # Exercise1.2: Suppose you double the size of the list. What's the maximum number of steps it would take now?
+  print(math.log2(128*2))
+  
