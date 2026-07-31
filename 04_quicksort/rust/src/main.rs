@@ -1,3 +1,5 @@
+mod quicksort_idiomatic;
+
 fn rec_sum(list: &[usize]) -> usize {
     match list.get(0) {
         Some(x) => x + rec_sum(&list[1..]),
@@ -60,6 +62,10 @@ fn main() {
     println!("sum: {}", rec_sum(&list));
     println!("count: {}", rec_count(&list));
     println!("maximum: {:?}", maximum(&list));
+
+    let mut list_mut = vec![10, 5, 2, 12, 3];
+    quicksort_idiomatic::quicksort(&mut list_mut);
+    println!("quicksort idiomatic: {:?}", list_mut);
 }
 
 #[cfg(test)]
